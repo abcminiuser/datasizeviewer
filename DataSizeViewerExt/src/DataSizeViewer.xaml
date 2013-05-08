@@ -1,0 +1,91 @@
+﻿<UserControl x:Class="FourWalledCubicle.DataSizeViewerExt.DataSizeViewerUI"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vsfx="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.10.0"
+             xmlns:sort="clr-namespace:FourWalledCubicle.DataSizeViewerExt" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             Name="ELFSymbolSizes"
+             Background="{DynamicResource {x:Static vsfx:VsBrushes.CommandBarGradientKey}}"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <UserControl.Resources>        
+        <Style x:Key="horizontalContentAlignmentStyleLeft" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        </Style>
+        <Style x:Key="horizontalContentAlignmentStyleRight" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="HorizontalContentAlignment" Value="Right"/>
+        </Style>
+
+        <DataTemplate x:Key="ListViewHeaderTemplateDescendingSorting">
+            <DockPanel>
+                <TextBlock Text="{Binding}"/>
+                <Path x:Name="arrow"
+        StrokeThickness = "1"                                      
+        Fill            = "gray"
+        Data            = "M 5,10 L 15,10 L 10,5 L 5,10"/>
+            </DockPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ListViewHeaderTemplateAscendingSorting">
+            <DockPanel>
+                <TextBlock Text="{Binding }"/>
+                <Path x:Name="arrow"
+        StrokeThickness = "1"                                   
+        Fill            = "gray"
+        Data            = "M 5,5 L 10,10 L 15,5 L 5,5"/>
+            </DockPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ListViewHeaderTemplateNoSorting">
+            <DockPanel>
+                <TextBlock Text="{Binding }"/>
+            </DockPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <DockPanel>
+        <TextBlock DockPanel.Dock="Top" Margin="8,6,8,4">
+                <TextBlock.Inlines>
+                    <Run FontWeight="Bold">Project </Run>
+                    <Run Name="projectName">(None)</Run>
+                </TextBlock.Inlines>
+        </TextBlock>
+
+        <Grid DockPanel.Dock="Top" Visibility="Hidden">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="{Binding ElementName=storageColumn, Path=ActualWidth}"/>
+                <ColumnDefinition Width="{Binding ElementName=sizeColumn, Path=ActualWidth}"/>
+                <ColumnDefinition Width="12"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" x:Name="nameColumnStretcher" />
+        </Grid>
+
+        <ListView DockPanel.Dock="Top" 
+                      Name="symbolSize" 
+                      HorizontalAlignment="Stretch" 
+                      VerticalAlignment="Stretch"
+                      DataContext="{Binding mSymbolParser.symbolSizes}" 
+                      MouseDoubleClick="symbolSize_MouseDoubleClick"
+                      sort:ListViewSorter.CustomListViewSorter="FourWalledCubicle.DataSizeViewerExt.Comparer.ItemSizeComparer"
+                      ScrollViewer.CanContentScroll="True" 
+                      ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="ToolTip" Value="{Binding Path=Location}" />
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn x:Name="nameColumn" Width="{Binding ElementName=nameColumnStretcher, Path=ActualWidth}" Header="Symbol Name" DisplayMemberBinding="{Binding Path=Name}" HeaderContainerStyle="{StaticResource horizontalContentAlignmentStyleLeft}"/>
+                    <GridViewColumn x:Name="storageColumn" Width="100" Header="Storage" DisplayMemberBinding="{Binding Path=Storage}" HeaderContainerStyle="{StaticResource horizontalContentAlignmentStyleLeft}"/>
+                    <GridViewColumn x:Name="sizeColumn" Width="110" Header="Size (bytes)" DisplayMemberBinding="{Binding Path=Size}" HeaderContainerStyle="{StaticResource horizontalContentAlignmentStyleLeft}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </DockPanel>
+</UserControl>

@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <Extern href="stdidcmd.h"/>
+  <Extern href="vsshlids.h"/>
+  <Extern href="msobtnid.h"/>
+
+  <Commands package="guidDataSizeViewerPkg">
+    <Buttons>
+      <Button guid="guidDataSizeViewerCmdSet" id="cmdidELFSymbolSizes" priority="0x0101" type="Button">
+        <Parent guid="guidSHLMainMenu" id="IDG_VS_VIEW_DEV_WINDOWS"/>
+        <Icon guid="guidImages" id="cog" />
+        <Strings>
+          <CommandName>cmdidELFSymbolSizes</CommandName>
+          <ButtonText>ELF Symbol Sizes</ButtonText>
+        </Strings>
+      </Button>
+    </Buttons>
+
+    <Bitmaps>
+      <Bitmap guid="guidImages" href="Resources\base_cog_16.png" usedList="cog"/>
+    </Bitmaps>
+  </Commands>
+
+  <Symbols>
+    <GuidSymbol name="guidDataSizeViewerPkg" value="{3e30bc56-2280-4652-ace4-c22cf8830515}" />
+    <GuidSymbol name="guidDataSizeViewerCmdSet" value="{7c23d55e-1034-499b-8461-194fdc8c197a}">
+      <IDSymbol name="cmdidELFSymbolSizes" value="0x0101" />
+    </GuidSymbol>
+    <GuidSymbol name="guidImages" value="{9e1fb6d1-e2c4-421f-bfba-53e1943d442d}" >
+      <IDSymbol name="cog" value="1" />
+    </GuidSymbol>
+  </Symbols>
+
+</CommandTable>
