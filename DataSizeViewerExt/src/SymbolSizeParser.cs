@@ -56,6 +56,19 @@ namespace FourWalledCubicle.DataSizeViewerExt
     class SymbolSizeParser
     {
         private ObservableCollection<ItemSize> mSymbolSizes = new ObservableCollection<ItemSize>();
+
+        private static readonly Regex symbolParserRegex = new Regex(
+                @"^" + //                   Start of line
+                @"(?<Size>[^\W]*)" + //     Match/capture symbol size
+                @"\W+" + //                 Whitespace seperator
+                @"(?<Storage>[^\W])" + //   Match/capture symbol storage
+                @"\W+" + //                 Whitespace seperator
+                @"(?<Name>[^\W]*)" + //     Match/capture symbol name
+                @"\W+" + //                 Whitespace seperator
+                @"(?<Location>.*)" + //     Match/capture symbol location
+                @"$", //                    End of line
+                RegexOptions.Compiled);
+        
         public ObservableCollection<ItemSize> symbolSizes
         {
             get { return mSymbolSizes; }
@@ -93,7 +106,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
                 if (s == null)
                     continue;
 
-                string[] itemData = Regex.Split(s, @"^(?<Size>[^\W]*)\W+(?<Storage>[^\W])\W+(?<Name>[^\W]*)\W+(?<Location>.*)$");
+                string[] itemData = symbolParserRegex.Split(s);
 
                 if (itemData.Length == 1)
                     continue;
