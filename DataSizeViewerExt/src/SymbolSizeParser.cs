@@ -53,21 +53,29 @@ namespace FourWalledCubicle.DataSizeViewerExt
         }
     }
 
+    static internal class StringUtil
+    {
+        public static string StringValueOrDefault(this string s1, string s2)
+        {
+            return string.IsNullOrWhiteSpace(s1) ? s2 : s1;
+        }
+    }
+
     class SymbolSizeParser
     {
         private ObservableCollection<ItemSize> mSymbolSizes = new ObservableCollection<ItemSize>();
 
         private static readonly Regex symbolParserRegex = new Regex(
                 @"^" + //                   Start of line
-                @"(?<Size>[^\W]*)" + //     Match/capture symbol size
-                @"\W+" + //                 Whitespace seperator
-                @"(?<Storage>[^\W])" + //   Match/capture symbol storage
-                @"\W+" + //                 Whitespace seperator
-                @"(?<Name>[^\W]*)" + //     Match/capture symbol name
-                @"\W+" + //                 Whitespace seperator
+                @"(?<Size>[^\s]*)" + //     Match/capture symbol size
+                @"\s*" + //                 Whitespace seperator
+                @"(?<Storage>[^\s])" + //   Match/capture symbol storage
+                @"\s*" + //                 Whitespace seperator
+                @"(?<Name>[^\s]*)" + //     Match/capture symbol name
+                @"\s*" + //                 Whitespace seperator
                 @"(?<Location>.*)" + //     Match/capture symbol location
                 @"$", //                    End of line
-                RegexOptions.Compiled);
+                RegexOptions.Compiled | RegexOptions.ExplicitCapture);
         
         public ObservableCollection<ItemSize> symbolSizes
         {
@@ -106,17 +114,17 @@ namespace FourWalledCubicle.DataSizeViewerExt
                 if (s == null)
                     continue;
 
-                string[] itemData = symbolParserRegex.Split(s);
+                Match itemData = symbolParserRegex.Match(s);
 
-                if (itemData.Length == 1)
+                if (!itemData.Groups["Name"].Success || !itemData.Groups["Size"].Success || !itemData.Groups["Storage"].Success)
                     continue;
 
                 mSymbolSizes.Add(new ItemSize()
                 {
-                    Size = UInt32.Parse(itemData[1]),
-                    Storage = StorageLocation.Instance.GetStorageDescription(itemData[2]),
-                    Name = itemData[3],
-                    Location = itemData[4]
+                    Size = UInt32.Parse(itemData.Groups["Size"].Value),
+                    Storage = StorageLocation.Instance.GetStorageDescription(itemData.Groups["Storage"].Value),
+                    Name = itemData.Groups["Name"].Value,
+                    Location = itemData.Groups["Location"].Value.StringValueOrDefault("Symbol Location Unspecified")
                 });
             }
         }
