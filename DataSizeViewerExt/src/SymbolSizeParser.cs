@@ -71,8 +71,8 @@ namespace FourWalledCubicle.DataSizeViewerExt
                 @"\s*" + //                 Whitespace seperator
                 @"(?<Storage>[^\s])" + //   Match/capture symbol storage
                 @"\s*" + //                 Whitespace seperator
-                @"(?<Name>[^\s]*)" + //     Match/capture symbol name
-                @"\s*" + //                 Whitespace seperator
+                @"(?<Name>[^\t]*)" + //     Match/capture symbol name
+                @"\t" + //                  Tab seperator
                 @"(?<Location>.*)" + //     Match/capture symbol location
                 @"$", //                    End of line
                 RegexOptions.Compiled | RegexOptions.ExplicitCapture);
