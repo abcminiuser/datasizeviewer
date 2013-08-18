@@ -67,14 +67,27 @@ namespace FourWalledCubicle.DataSizeViewerExt
             if (mToolchainService == null)
                 return;
 
-            ICCompilerToolchain toolchain = mToolchainService.GetCCompilerToolchain(projectNode.ToolchainName, projectNode.GetProperty("ToolchainFlavour"));
+            ICCompilerToolchain toolchainC = mToolchainService.GetCCompilerToolchain(projectNode.ToolchainName, projectNode.GetProperty("ToolchainFlavour"));
+            if (toolchainC != null)
+            {
+                string elfPath = Path.Combine(projectNode.GetProperty("OutputDirectory"), projectNode.GetProperty("OutputFilename") + ".elf");
+                string toolchainPath = Path.GetDirectoryName(toolchainC.Compiler.FullPath);
+                string toolchainNMPath = Path.Combine(toolchainPath, Path.GetFileName(toolchainC.Compiler.FullPath).Replace("gcc", "nm"));
 
-            string elfPath = Path.Combine(projectNode.GetProperty("OutputDirectory"), projectNode.GetProperty("OutputFilename") + ".elf");
-            string toolchainPath = Path.GetDirectoryName(toolchain.Compiler.FullPath);
-            string toolchainNMPath = Path.Combine(toolchainPath, Path.GetFileName(toolchain.Compiler.FullPath).Replace("gcc", "nm"));
+                if (File.Exists(elfPath) && File.Exists(toolchainNMPath))
+                    mSymbolParser.ReloadSymbols(elfPath, toolchainNMPath);
+            }
+            
+            ICppCompilerToolchain toolchainCpp = mToolchainService.GetCppCompilerToolchain(projectNode.ToolchainName, projectNode.GetProperty("ToolchainFlavour"));
+            if (toolchainCpp != null)
+            {
+                string elfPath = Path.Combine(projectNode.GetProperty("OutputDirectory"), projectNode.GetProperty("OutputFilename") + ".elf");
+                string toolchainPath = Path.GetDirectoryName(toolchainCpp.CppCompiler.FullPath);
+                string toolchainNMPath = Path.Combine(toolchainPath, Path.GetFileName(toolchainCpp.CppCompiler.FullPath).Replace("g++", "nm"));
 
-            if (File.Exists(elfPath) && File.Exists(toolchainNMPath))
-                mSymbolParser.ReloadSymbols(elfPath, toolchainNMPath);
+                if (File.Exists(elfPath) && File.Exists(toolchainNMPath))
+                    mSymbolParser.ReloadSymbols(elfPath, toolchainNMPath);
+            }
         }
 
         private static string GetStartupProjectName(DTE myDTE)
