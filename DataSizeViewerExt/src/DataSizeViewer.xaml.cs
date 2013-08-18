@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
+using System.Windows;
 using Atmel.Studio.Extensibility.Toolchain;
 using Atmel.Studio.Services;
 using EnvDTE;
@@ -49,7 +51,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
         private void ReloadProjectSymbols()
         {
             mSymbolParser.ClearSymbols();
-            
+
             string startupProjectName = GetStartupProjectName(myDTE);
             if (string.IsNullOrEmpty(startupProjectName))
                 return;
@@ -77,7 +79,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
                 if (File.Exists(elfPath) && File.Exists(toolchainNMPath))
                     mSymbolParser.ReloadSymbols(elfPath, toolchainNMPath);
             }
-            
+
             ICppCompilerToolchain toolchainCpp = mToolchainService.GetCppCompilerToolchain(projectNode.ToolchainName, projectNode.GetProperty("ToolchainFlavour"));
             if (toolchainCpp != null)
             {
@@ -134,6 +136,24 @@ namespace FourWalledCubicle.DataSizeViewerExt
             {
                 myDTE.StatusBar.Text = String.Format("Could not open file {0}", symbolLocation);
             }
+        }
+
+        void symbolSize_CopyCmdExecuted(object target, ExecutedRoutedEventArgs e)
+        {
+            string copyContent = String.Empty;
+
+            foreach (ItemSize i in symbolSize.SelectedItems)
+            {
+                copyContent += String.Format("{0}, {1}, {2}", i.Size, i.Storage, i.Name);
+                copyContent += Environment.NewLine;
+            }
+
+            Clipboard.SetText(copyContent);
+        }
+
+        void symbolSize_CopyCmdCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = (symbolSize.Items.Count > 0);
         }
     }
 }
