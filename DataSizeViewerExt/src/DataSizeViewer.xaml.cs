@@ -10,6 +10,7 @@ using Atmel.Studio.Extensibility.Toolchain;
 using Atmel.Studio.Services;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
+using System.Text;
 
 namespace FourWalledCubicle.DataSizeViewerExt
 {
@@ -140,15 +141,12 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
         void symbolSize_CopyCmdExecuted(object target, ExecutedRoutedEventArgs e)
         {
-            string copyContent = String.Empty;
+            StringBuilder copyContent = new StringBuilder();
 
             foreach (ItemSize i in symbolSize.SelectedItems)
-            {
-                copyContent += String.Format("{0}, {1}, {2}", i.Size, i.Storage, i.Name);
-                copyContent += Environment.NewLine;
-            }
+              copyContent.AppendLine(String.Format("{0}, {1}, {2}", i.Size, i.Storage, i.Name));
 
-            Clipboard.SetText(copyContent);
+            Clipboard.SetText(copyContent.ToString());
         }
 
         void symbolSize_CopyCmdCanExecute(object sender, CanExecuteRoutedEventArgs e)
