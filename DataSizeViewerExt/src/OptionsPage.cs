@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
-using Microsoft.VisualStudio.Shell;
-using System.Windows.Media;
 using System.Drawing.Design;
+using System.Windows.Media;
+using Microsoft.VisualStudio.Shell;
 
 namespace FourWalledCubicle.DataSizeViewerExt
 {

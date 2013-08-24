@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Text.RegularExpressions;
 
 namespace FourWalledCubicle.DataSizeViewerExt
@@ -127,7 +128,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
                     Storage = StorageLocation.Instance.GetStorageDescription(itemData.Groups["Storage"].Value),
                     Name = itemData.Groups["Name"].Value,
                     Location = itemData.Groups["Location"].Value.StringValueOrDefault("Symbol Location Unspecified"),
-                    LocationExists = verifyLocations ? System.IO.File.Exists(locationPath) : true
+                    LocationExists = verifyLocations ? File.Exists(locationPath) : true
                 });
             }
         }
