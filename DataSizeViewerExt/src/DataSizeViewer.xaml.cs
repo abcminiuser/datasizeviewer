@@ -78,7 +78,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
                 string toolchainNMPath = Path.Combine(toolchainPath, Path.GetFileName(toolchainC.Compiler.FullPath).Replace("gcc", "nm"));
 
                 if (File.Exists(elfPath) && File.Exists(toolchainNMPath))
-                    mSymbolParser.ReloadSymbols(elfPath, toolchainNMPath);
+                    mSymbolParser.ReloadSymbols(elfPath, toolchainNMPath, DataSizeViewerPackage.Options.VerifyLocations);
             }
 
             ICppCompilerToolchain toolchainCpp = mToolchainService.GetCppCompilerToolchain(projectNode.ToolchainName, projectNode.GetProperty("ToolchainFlavour"));
@@ -89,7 +89,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
                 string toolchainNMPath = Path.Combine(toolchainPath, Path.GetFileName(toolchainCpp.CppCompiler.FullPath).Replace("g++", "nm"));
 
                 if (File.Exists(elfPath) && File.Exists(toolchainNMPath))
-                    mSymbolParser.ReloadSymbols(elfPath, toolchainNMPath);
+                    mSymbolParser.ReloadSymbols(elfPath, toolchainNMPath, DataSizeViewerPackage.Options.VerifyLocations);
             }
         }
 

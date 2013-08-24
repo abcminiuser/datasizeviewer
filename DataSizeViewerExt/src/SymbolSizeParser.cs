@@ -61,7 +61,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
         }
     }
 
-    class SymbolSizeParser
+    public class SymbolSizeParser
     {
         private ObservableCollection<ItemSize> mSymbolSizes = new ObservableCollection<ItemSize>();
 
@@ -87,7 +87,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
             mSymbolSizes.Clear();
         }
 
-        public void ReloadSymbols(string elfPath, string toolchainNMPath)
+        public void ReloadSymbols(string elfPath, string toolchainNMPath, bool verifyLocations)
         {
             ProcessStartInfo startInfo = new ProcessStartInfo();
             Process p = new Process();
@@ -127,7 +127,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
                     Storage = StorageLocation.Instance.GetStorageDescription(itemData.Groups["Storage"].Value),
                     Name = itemData.Groups["Name"].Value,
                     Location = itemData.Groups["Location"].Value.StringValueOrDefault("Symbol Location Unspecified"),
-                    LocationExists = System.IO.File.Exists(locationPath)
+                    LocationExists = verifyLocations ? System.IO.File.Exists(locationPath) : true
                 });
             }
         }

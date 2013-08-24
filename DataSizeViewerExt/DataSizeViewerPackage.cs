@@ -12,9 +12,12 @@ namespace FourWalledCubicle.DataSizeViewerExt
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideToolWindow(typeof(DataSizeToolWindow), MultiInstances = false, Style = VsDockStyle.Tabbed, Transient = false, Orientation = ToolWindowOrientation.Bottom, Window = ToolWindowGuids.Outputwindow)]
+    [ProvideOptionPageAttribute(typeof(OptionsPage), "Extensions", "Data Size Viewer", 15600, 1912, true)]
     [Guid(GuidList.guidDataSizeViewerPkgString)]
     public sealed class DataSizeViewerPackage : Package
     {
+        internal static OptionsPage Options { get; private set; }
+        
         public DataSizeViewerPackage()
         {
             Trace.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering constructor for: {0}", this.ToString()));
@@ -35,6 +38,8 @@ namespace FourWalledCubicle.DataSizeViewerExt
         {
             Trace.WriteLine (string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
             base.Initialize();
+
+            Options = GetDialogPage(typeof(OptionsPage)) as OptionsPage;
 
             // Add our command handlers for menu (commands must exist in the .vsct file)
             OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
