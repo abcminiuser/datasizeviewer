@@ -6,6 +6,7 @@
              xmlns:vsfx="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.10.0"
              xmlns:dsv="clr-namespace:FourWalledCubicle.DataSizeViewerExt"
              xmlns:cmp="clr-namespace:FourWalledCubicle.DataSizeViewerExt.Comparer"
+             xmlns:cvt="clr-namespace:FourWalledCubicle.DataSizeViewerExt.Converter"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              Name="ELFSymbolSizes"
@@ -21,6 +22,8 @@
         </Style>
         
         <cmp:ItemSizeComparer x:Key="ItemSizeComparer"/>
+        
+        <cvt:SymbolValidColorConverter x:Key="SymbolValidConverter"/>
 
         <DataTemplate x:Key="ListViewHeaderTemplateDescendingSorting">
             <DockPanel>
@@ -34,7 +37,7 @@
 
         <DataTemplate x:Key="ListViewHeaderTemplateAscendingSorting">
             <DockPanel>
-                <TextBlock Text="{Binding }"/>
+                <TextBlock Text="{Binding}"/>
                 <Path x:Name="arrow"
                     StrokeThickness = "1"
                     Fill            = "gray"
@@ -44,7 +47,7 @@
 
         <DataTemplate x:Key="ListViewHeaderTemplateNoSorting">
             <DockPanel>
-                <TextBlock Text="{Binding }"/>
+                <TextBlock Text="{Binding}"/>
             </DockPanel>
         </DataTemplate>
     </UserControl.Resources>
@@ -94,6 +97,16 @@
                 </Style>
             </ListView.ItemContainerStyle>
 
+            <ListView.Resources>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Foreground">
+                        <Setter.Value>
+                            <SolidColorBrush Color="{Binding Path=LocationExists, Converter={StaticResource SymbolValidConverter}}" />
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.Resources>
+            
             <ListView.View>
                 <GridView>
                     <GridViewColumn x:Name="nameColumn" Width="{Binding ElementName=nameColumnStretcher, Path=ActualWidth}" Header="Symbol Name" DisplayMemberBinding="{Binding Path=Name}" HeaderContainerStyle="{StaticResource horizontalContentAlignmentStyleLeft}"/>

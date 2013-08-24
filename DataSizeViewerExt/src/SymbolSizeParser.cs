@@ -119,12 +119,15 @@ namespace FourWalledCubicle.DataSizeViewerExt
                 if (!itemData.Groups["Name"].Success || !itemData.Groups["Size"].Success || !itemData.Groups["Storage"].Success)
                     continue;
 
+                string locationPath = itemData.Groups["Location"].Value.Substring(0, itemData.Groups["Location"].Value.LastIndexOf(':'));
+
                 mSymbolSizes.Add(new ItemSize()
                 {
                     Size = UInt32.Parse(itemData.Groups["Size"].Value),
                     Storage = StorageLocation.Instance.GetStorageDescription(itemData.Groups["Storage"].Value),
                     Name = itemData.Groups["Name"].Value,
-                    Location = itemData.Groups["Location"].Value.StringValueOrDefault("Symbol Location Unspecified")
+                    Location = itemData.Groups["Location"].Value.StringValueOrDefault("Symbol Location Unspecified"),
+                    LocationExists = System.IO.File.Exists(locationPath)
                 });
             }
         }

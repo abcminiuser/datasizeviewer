@@ -6,6 +6,7 @@
         public string Storage { get; set; }
         public uint Size { get; set; }
         public string Location { get; set; }
+        public bool LocationExists { get; set; }
     }
 }
 

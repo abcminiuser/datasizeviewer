@@ -126,6 +126,7 @@
   <ItemGroup>
     <Compile Include="src\Comparer\ItemSizeComparer.cs" />
     <Compile Include="src\Comparer\ListViewCustomComparer.cs" />
+    <Compile Include="src\Converter\SymbolValidColorConverter.cs" />
     <Compile Include="src\Interfaces\IListViewComparer.cs" />
     <Compile Include="src\Sorter\ListViewSorter.cs" />
     <Compile Include="src\Sorter\ListViewSortItem.cs" />
