@@ -9,7 +9,27 @@ namespace FourWalledCubicle.DataSizeViewerExt.Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ((bool)value) ? Colors.Black : Colors.DarkGray;
+            Color foregroundColor = Colors.Black;
+
+            if (value != null)
+            {
+                ItemSize symbolInfo = (ItemSize)value;
+
+                if (symbolInfo.Storage.Contains("Data"))
+                {
+                   foregroundColor = symbolInfo.LocationExists ?
+                            DataSizeViewerPackage.Options.DataSymbolColor :
+                            DataSizeViewerPackage.Options.UnavailableDataSymbolColor;
+                }
+                else
+                {
+                    foregroundColor = symbolInfo.LocationExists ?
+                            DataSizeViewerPackage.Options.TextSymbolColor :
+                            DataSizeViewerPackage.Options.UnavailableTextSymbolColor;
+                }
+            }
+
+            return new SolidColorBrush(foregroundColor);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
