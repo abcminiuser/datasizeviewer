@@ -3,7 +3,7 @@
   <Identifier Id="3e30bc56-2280-4652-ace4-c22cf8830515">
     <Name>Data Size Viewer</Name>
     <Author>Dean Camera &amp; Morten Olsen</Author>
-    <Version>0.5</Version>
+    <Version>0.6</Version>
     <Description xml:space="preserve">Displays a list grouped by segment of a compiled application's symbols, and their sizes.</Description>
     <Locale>1033</Locale>
     <License>License.txt</License>

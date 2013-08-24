@@ -30,6 +30,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
             {
                 throw new NotSupportedException(Resources.CanNotCreateWindow);
             }
+
             IVsWindowFrame windowFrame = (IVsWindowFrame)window.Frame;
             Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(windowFrame.Show());
         }
@@ -39,7 +40,15 @@ namespace FourWalledCubicle.DataSizeViewerExt
             Trace.WriteLine (string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
             base.Initialize();
 
-            Options = GetDialogPage(typeof(OptionsPage)) as OptionsPage;
+            // Get extension configuration options
+            try
+            {
+                Options = GetDialogPage(typeof(OptionsPage)) as OptionsPage;
+            }
+            catch
+            {
+                Options = new OptionsPage();
+            }
 
             // Add our command handlers for menu (commands must exist in the .vsct file)
             OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
