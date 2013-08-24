@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vsfx="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.10.0"
-             xmlns:sort="clr-namespace:FourWalledCubicle.DataSizeViewerExt"
+             xmlns:dsv="clr-namespace:FourWalledCubicle.DataSizeViewerExt"
+             xmlns:cmp="clr-namespace:FourWalledCubicle.DataSizeViewerExt.Comparer"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              Name="ELFSymbolSizes"
@@ -18,6 +19,8 @@
         <Style x:Key="horizontalContentAlignmentStyleRight" TargetType="{x:Type GridViewColumnHeader}">
             <Setter Property="HorizontalContentAlignment" Value="Right"/>
         </Style>
+        
+        <cmp:ItemSizeComparer x:Key="ItemSizeComparer"/>
 
         <DataTemplate x:Key="ListViewHeaderTemplateDescendingSorting">
             <DockPanel>
@@ -71,7 +74,7 @@
                       VerticalAlignment="Stretch"
                       DataContext="{Binding mSymbolParser.symbolSizes}"
                       MouseDoubleClick="symbolSize_MouseDoubleClick"
-                      sort:ListViewSorter.CustomListViewSorter="FourWalledCubicle.DataSizeViewerExt.Comparer.ItemSizeComparer"
+                      dsv:ListViewSorter.CustomListViewSorter="{StaticResource ResourceKey=ItemSizeComparer}"
                       ScrollViewer.CanContentScroll="True"
                       ScrollViewer.VerticalScrollBarVisibility="Auto">
 

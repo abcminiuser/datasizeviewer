@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
@@ -14,16 +15,16 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
         public static readonly DependencyProperty CustomListViewSorterProperty = DependencyProperty.RegisterAttached(
             "CustomListViewSorter",
-            typeof(String),
+            typeof(IComparer),
             typeof(ListViewSorter),
-            new FrameworkPropertyMetadata("", new PropertyChangedCallback(OnRegisterSortableGrid)));
+            new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnRegisterSortableGrid)));
 
-        public static String GetCustomListViewSorter(DependencyObject obj)
+        public static IComparer GetCustomListViewSorter(DependencyObject obj)
         {
-            return (String)obj.GetValue(CustomListViewSorterProperty);
+            return obj.GetValue(CustomListViewSorterProperty) as IComparer;
         }
 
-        public static void SetCustomListViewSorter(DependencyObject obj, String value)
+        public static void SetCustomListViewSorter(DependencyObject obj, IComparer value)
         {
             obj.SetValue(CustomListViewSorterProperty, value);
         }
@@ -80,7 +81,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
             if (view != null)
             {
-                _listViewDefinitions.Add(view.Name, new ListViewSortItem(Activator.CreateInstance(Type.GetType(GetCustomListViewSorter(obj))) as IListViewCustomComparer, null, ListSortDirection.Ascending));
+                _listViewDefinitions.Add(view.Name, new ListViewSortItem(GetCustomListViewSorter(obj) as IListViewCustomComparer, null, ListSortDirection.Ascending));
                 view.AddHandler(GridViewColumnHeader.ClickEvent, new RoutedEventHandler(GridViewColumnHeaderClickedHandler));
             }
         }
