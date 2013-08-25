@@ -20,9 +20,9 @@
         <Style x:Key="horizontalContentAlignmentStyleRight" TargetType="{x:Type GridViewColumnHeader}">
             <Setter Property="HorizontalContentAlignment" Value="Right"/>
         </Style>
-        
+
         <cmp:ItemSizeComparer x:Key="ItemSizeComparer"/>
-        
+
         <cvt:SymbolValidColorConverter x:Key="SymbolValidConverter"/>
 
         <DataTemplate x:Key="ListViewHeaderTemplateDescendingSorting">
@@ -64,7 +64,21 @@
             <Button DockPanel.Dock="Right" Width="16" HorizontalAlignment="Right" Click="RefreshSymbolTable_Click" ToolTip="Reload Symbols">
                 <Button.Template>
                     <ControlTemplate>
-                        <Image Source="/DataSizeViewer;component/Resources/RefreshDocViewHS.png"/>
+                        <Image Source="/DataSizeViewer;component/Resources/RefreshDocViewHS.png">
+                            <Image.Style>
+                                <Style TargetType="Image">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="BitmapEffect">
+                                                <Setter.Value>
+                                                    <DropShadowBitmapEffect Color="DarkGreen" Direction="320" ShadowDepth="3" Softness=".1" Opacity="0.4"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
                     </ControlTemplate>
                 </Button.Template>
             </Button>
@@ -113,7 +127,7 @@
                     <Setter Property="Foreground" Value="{Binding Converter={StaticResource SymbolValidConverter}}"/>
                 </Style>
             </ListView.Resources>
-            
+
             <ListView.View>
                 <GridView>
                     <GridViewColumn x:Name="nameColumn" Width="{Binding ElementName=nameColumnStretcher, Path=ActualWidth}" Header="Symbol Name" DisplayMemberBinding="{Binding Path=Name}" HeaderContainerStyle="{StaticResource horizontalContentAlignmentStyleLeft}"/>
