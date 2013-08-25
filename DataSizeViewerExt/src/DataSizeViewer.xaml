@@ -53,12 +53,22 @@
     </UserControl.Resources>
 
     <DockPanel>
-        <TextBlock DockPanel.Dock="Top" Margin="8,6,8,4">
-                <TextBlock.Inlines>
-                    <Run FontWeight="Bold">Project </Run>
-                    <Run Name="projectName">(None)</Run>
-                </TextBlock.Inlines>
-        </TextBlock>
+        <DockPanel DockPanel.Dock="Top" Margin="8,6,8,4">
+            <TextBlock DockPanel.Dock="Left">
+                    <TextBlock.Inlines>
+                        <Run FontWeight="Bold">Project </Run>
+                        <Run Name="projectName">(None)</Run>
+                    </TextBlock.Inlines>
+            </TextBlock>
+
+            <Button DockPanel.Dock="Right" Width="16" HorizontalAlignment="Right" Click="RefreshSymbolTable_Click" ToolTip="Reload Symbols">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Image Source="/DataSizeViewer;component/Resources/RefreshDocViewHS.png"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </DockPanel>
 
         <Grid DockPanel.Dock="Top" Visibility="Hidden">
             <Grid.ColumnDefinitions>

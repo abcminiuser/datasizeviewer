@@ -11,10 +11,9 @@ namespace FourWalledCubicle.DataSizeViewerExt.Converter
         {
             Color foregroundColor = Colors.Black;
 
-            if (value != null)
+            ItemSize symbolInfo = value as ItemSize;
+            if (symbolInfo != null)
             {
-                ItemSize symbolInfo = (ItemSize)value;
-
                 if (symbolInfo.Storage.Contains("Data"))
                 {
                    foregroundColor = symbolInfo.LocationExists ?

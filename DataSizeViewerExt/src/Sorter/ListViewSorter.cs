@@ -55,14 +55,14 @@ namespace FourWalledCubicle.DataSizeViewerExt
                 listViewSortItem.Comparer.SortBy = header;
                 listViewSortItem.Comparer.SortDirection = sortDirection;
                 collectionView.CustomSort = listViewSortItem.Comparer;
-                view.Items.Refresh();
             }
             else
             {
                 view.Items.SortDescriptions.Clear();
                 view.Items.SortDescriptions.Add(new SortDescription(headerClicked.Column.Header.ToString(), sortDirection));
-                view.Items.Refresh();
             }
+
+            view.Items.Refresh();
 
             // change datatemplate of previous and current column header
             headerClicked.Column.HeaderTemplate = GetHeaderColumnsDataTemplate(view, listViewSortItem, sortDirection);

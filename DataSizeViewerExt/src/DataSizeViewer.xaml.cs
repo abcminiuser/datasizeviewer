@@ -153,5 +153,10 @@ namespace FourWalledCubicle.DataSizeViewerExt
         {
             e.CanExecute = (symbolSize.Items.Count > 0);
         }
+
+        private void RefreshSymbolTable_Click(object sender, RoutedEventArgs e)
+        {
+            ReloadProjectSymbols();
+        }
     }
 }
