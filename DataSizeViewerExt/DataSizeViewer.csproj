@@ -183,8 +183,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Resource Include="Resources\RefreshDocViewHS.png" />
-    <Resource Include="Resources\base_cog_16.png" />
+    <Resource Include="Resources\Icon_Refresh.png" />
+    <Resource Include="Resources\Icon_Cog.png" />
     <Content Include="Icon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>

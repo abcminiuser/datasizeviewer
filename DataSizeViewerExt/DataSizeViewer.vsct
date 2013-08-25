@@ -17,7 +17,7 @@
     </Buttons>
 
     <Bitmaps>
-      <Bitmap guid="guidImages" href="Resources\base_cog_16.png" usedList="cog"/>
+      <Bitmap guid="guidImages" href="Resources\Icon_Cog.png" usedList="cog"/>
     </Bitmaps>
   </Commands>
 

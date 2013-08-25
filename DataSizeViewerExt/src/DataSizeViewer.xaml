@@ -64,7 +64,7 @@
             <Button DockPanel.Dock="Right" Width="16" HorizontalAlignment="Right" Click="RefreshSymbolTable_Click" ToolTip="Reload Symbols">
                 <Button.Template>
                     <ControlTemplate>
-                        <Image Source="/DataSizeViewer;component/Resources/RefreshDocViewHS.png">
+                        <Image Source="/DataSizeViewer;component/Resources/Icon_Refresh.png">
                             <Image.Style>
                                 <Style TargetType="Image">
                                     <Style.Triggers>
