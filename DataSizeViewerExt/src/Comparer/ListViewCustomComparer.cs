@@ -28,7 +28,7 @@ namespace FourWalledCubicle.DataSizeViewerExt.Comparer
  
             if (item1 == null || item2 == null)
             {
-                System.Diagnostics.Trace.Write("Either x or y is null in compare(x,y)");
+                System.Diagnostics.Trace.Write("Either x or y is null in compare(x,y)" + Environment.NewLine);
                 return 0;
             }
  

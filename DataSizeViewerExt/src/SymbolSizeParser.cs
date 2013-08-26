@@ -109,6 +109,8 @@ namespace FourWalledCubicle.DataSizeViewerExt
             p.WaitForExit();
 
             mSymbolSizes.Clear();
+
+            Dictionary<string, bool> symbolLocationDict = new Dictionary<string,bool>();
             
             foreach (string s in symbolOutput)
             {
@@ -121,6 +123,15 @@ namespace FourWalledCubicle.DataSizeViewerExt
                     continue;
 
                 string locationPath = itemData.Groups["Location"].Value.Substring(0, itemData.Groups["Location"].Value.LastIndexOf(':'));
+                bool locationExists = true;
+
+                if (verifyLocations)
+                {
+                    if (symbolLocationDict.ContainsKey(locationPath) == false)
+                        symbolLocationDict.Add(locationPath, File.Exists(locationPath));
+
+                    locationExists = symbolLocationDict[locationPath];
+                }
 
                 mSymbolSizes.Add(new ItemSize()
                 {
@@ -128,7 +139,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
                     Storage = StorageLocation.Instance.GetStorageDescription(itemData.Groups["Storage"].Value),
                     Name = itemData.Groups["Name"].Value,
                     Location = itemData.Groups["Location"].Value.StringValueOrDefault("Symbol Location Unspecified"),
-                    LocationExists = verifyLocations ? File.Exists(locationPath) : true
+                    LocationExists = locationExists
                 });
             }
         }
