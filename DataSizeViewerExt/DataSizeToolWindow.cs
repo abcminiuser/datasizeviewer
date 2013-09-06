@@ -13,7 +13,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
     /// This class derives from the ToolWindowPane class provided from the MPF in order to use its 
     /// implementation of the IVsUIElementPane interface.
     /// </summary>
-    [Guid("8e77ed0e-c7f3-4464-98b8-b37b2654bd33")]
+    [Guid(GuidList.guidToolWindowPersistanceString)]
     public class DataSizeToolWindow : ToolWindowPane
     {
         /// <summary>

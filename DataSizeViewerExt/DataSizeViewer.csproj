@@ -183,6 +183,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Resource Include="Resources\Icon_Settings.png" />
     <Resource Include="Resources\Icon_Refresh.png" />
     <Resource Include="Resources\Icon_Cog.png" />
     <Content Include="Icon.png">

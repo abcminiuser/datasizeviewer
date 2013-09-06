@@ -8,13 +8,13 @@ namespace FourWalledCubicle.DataSizeViewerExt
     public class OptionsPage : DialogPage
     {
         private bool mVerifyLocations = true;
-        private Color mTextSymbolColor = Colors.Black;
+        private Color mTextSymbolColor = Colors.DarkGreen;
         private Color mUnavailableTextSymbolColor = Colors.DarkGray;
-        private Color mDataSymbolColor = Colors.Black;
+        private Color mDataSymbolColor = Colors.DarkBlue;
         private Color mUnavailableDataSymbolColor = Colors.DarkGray;
 
         [DisplayName("Verify Symbol Locations")]
-        [Description("Verify that a symbol's location source file exists; if not, the symbol is grayed out in the symbol list.")]
+        [Description("Verify that a symbol's location source file exists; if not, the unavailable symbol color is used.")]
         public bool VerifyLocations
         {
             get { return mVerifyLocations; }

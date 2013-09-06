@@ -17,6 +17,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
     public sealed class DataSizeViewerPackage : Package
     {
         internal static OptionsPage Options { get; private set; }
+        internal static Package Package { get; private set; }
         
         public DataSizeViewerPackage()
         {
@@ -39,6 +40,8 @@ namespace FourWalledCubicle.DataSizeViewerExt
         {
             Trace.WriteLine (string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
             base.Initialize();
+
+            Package = this;
 
             // Get extension configuration options
             try

@@ -158,5 +158,10 @@ namespace FourWalledCubicle.DataSizeViewerExt
         {
             ReloadProjectSymbols();
         }
+
+        private void Settings_Click(object sender, RoutedEventArgs e)
+        {
+            DataSizeViewerPackage.Package.ShowOptionPage(typeof(OptionsPage));
+        }    
     }
 }
