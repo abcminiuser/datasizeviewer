@@ -70,27 +70,25 @@ namespace FourWalledCubicle.DataSizeViewerExt
             if (mToolchainService == null)
                 return;
 
+            string elfPath = null;
+            string toolchainNMPath = null;
+
             ICCompilerToolchain toolchainC = mToolchainService.GetCCompilerToolchain(projectNode.ToolchainName, projectNode.GetProperty("ToolchainFlavour"));
             if (toolchainC != null)
             {
-                string elfPath = Path.Combine(projectNode.GetProperty("OutputDirectory"), projectNode.GetProperty("OutputFilename") + ".elf");
-                string toolchainPath = Path.GetDirectoryName(toolchainC.Compiler.FullPath);
-                string toolchainNMPath = Path.Combine(toolchainPath, Path.GetFileName(toolchainC.Compiler.FullPath).Replace("gcc", "nm"));
-
-                if (File.Exists(elfPath) && File.Exists(toolchainNMPath))
-                    mSymbolParser.ReloadSymbols(elfPath, toolchainNMPath, DataSizeViewerPackage.Options.VerifyLocations);
+                elfPath = Path.Combine(projectNode.GetProperty("OutputDirectory"), projectNode.GetProperty("OutputFilename") + ".elf");
+                toolchainNMPath = Path.Combine(Path.GetDirectoryName(toolchainC.Compiler.FullPath), Path.GetFileName(toolchainC.Compiler.FullPath).Replace("gcc", "nm"));
             }
 
             ICppCompilerToolchain toolchainCpp = mToolchainService.GetCppCompilerToolchain(projectNode.ToolchainName, projectNode.GetProperty("ToolchainFlavour"));
             if (toolchainCpp != null)
             {
-                string elfPath = Path.Combine(projectNode.GetProperty("OutputDirectory"), projectNode.GetProperty("OutputFilename") + ".elf");
-                string toolchainPath = Path.GetDirectoryName(toolchainCpp.CppCompiler.FullPath);
-                string toolchainNMPath = Path.Combine(toolchainPath, Path.GetFileName(toolchainCpp.CppCompiler.FullPath).Replace("g++", "nm"));
-
-                if (File.Exists(elfPath) && File.Exists(toolchainNMPath))
-                    mSymbolParser.ReloadSymbols(elfPath, toolchainNMPath, DataSizeViewerPackage.Options.VerifyLocations);
+                elfPath = Path.Combine(projectNode.GetProperty("OutputDirectory"), projectNode.GetProperty("OutputFilename") + ".elf");
+                toolchainNMPath = Path.Combine(Path.GetDirectoryName(toolchainC.Compiler.FullPath), Path.GetFileName(toolchainCpp.CppCompiler.FullPath).Replace("g++", "nm"));
             }
+
+            if (File.Exists(elfPath) && File.Exists(toolchainNMPath))
+                Dispatcher.Invoke(new Action(() => mSymbolParser.ReloadSymbols(elfPath, toolchainNMPath, DataSizeViewerPackage.Options.VerifyLocations)));
         }
 
         private static string GetStartupProjectName(DTE myDTE)
