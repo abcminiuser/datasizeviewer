@@ -35,37 +35,47 @@ namespace FourWalledCubicle.DataSizeViewerExt
             mBuildEvents.OnBuildDone += (Scope, Action) => ReloadProjectSymbols();
 
             mSolutionEvents = myDTE.Events.SolutionEvents;
-            mSolutionEvents.Opened += () => ReloadProjectSymbols();
-            mSolutionEvents.AfterClosing += () => ReloadProjectSymbols();
+            mSolutionEvents.Opened += () => UpdateProjectList();
+            mSolutionEvents.AfterClosing += () => UpdateProjectList();
+            mSolutionEvents.ProjectAdded += (p) => UpdateProjectList();
+            mSolutionEvents.ProjectRemoved += (p) => UpdateProjectList();
+            mSolutionEvents.ProjectRenamed += (p, s) => UpdateProjectList();
 
             mToolchainService = ATServiceProvider.ToolchainService;
+
+            projectList.SelectionChanged += (s, e) => ReloadProjectSymbols();
 
             mSymbolParser = new SymbolSizeParser();
             symbolSize.ItemsSource = mSymbolParser.symbolSizes;
 
             ICollectionView dataView = CollectionViewSource.GetDefaultView(mSymbolParser.symbolSizes);
             dataView.GroupDescriptions.Add(new PropertyGroupDescription("Storage"));
-
-            this.Loaded += (sender, e) => ReloadProjectSymbols();
         }
 
         private void ReloadProjectSymbols()
         {
             mSymbolParser.ClearSymbols();
 
-            string startupProjectName = GetStartupProjectName(myDTE);
-            if (string.IsNullOrEmpty(startupProjectName))
+            if (projectList.SelectedItem == null)
                 return;
 
-            Project project = myDTE.Solution.Projects.Item(startupProjectName);
+            String projectName = (String)projectList.SelectedItem.ToString();
+            if (String.IsNullOrEmpty(projectName))
+                return;
+
+            Project project = null;
+            try
+            {
+                project = myDTE.Solution.Item(projectName);
+            }
+            catch { }
+
             if (project == null)
                 return;
 
             IProjectHandle projectNode = project.Object as IProjectHandle;
             if (projectNode == null)
                 return;
-
-            projectName.Text = projectNode.Name;
 
             if (mToolchainService == null)
                 return;
@@ -89,6 +99,21 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
             if (File.Exists(elfPath) && File.Exists(toolchainNMPath))
                 Dispatcher.Invoke(new Action(() => mSymbolParser.ReloadSymbols(elfPath, toolchainNMPath, DataSizeViewerPackage.Options.VerifyLocations)));
+        }
+
+        private void UpdateProjectList()
+        {
+            projectList.Items.Clear();
+            foreach (Project p in myDTE.Solution.Projects)
+                projectList.Items.Add(p.UniqueName);
+
+            try
+            {
+                projectList.SelectedItem = myDTE.Solution.Projects.Item(GetStartupProjectName(myDTE)).UniqueName;
+            }
+            catch { }
+
+            ReloadProjectSymbols();
         }
 
         private static string GetStartupProjectName(DTE myDTE)

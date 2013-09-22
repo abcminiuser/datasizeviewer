@@ -69,7 +69,7 @@
             <TextBlock DockPanel.Dock="Left">
                     <TextBlock.Inlines>
                         <Run FontWeight="Bold">Project </Run>
-                        <Run Name="projectName">(None)</Run>
+                        <ComboBox Name="projectList"></ComboBox>
                     </TextBlock.Inlines>
             </TextBlock>
 
