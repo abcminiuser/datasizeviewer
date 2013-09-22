@@ -45,11 +45,11 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
             ListSortDirection sortDirection = GetSortingDirection(headerClicked, listViewSortItem);
 
-            // get header name
+            // Get header name
             String header = (headerClicked.Column.DisplayMemberBinding as Binding).Path.Path as String;
             if (String.IsNullOrEmpty(header)) return;
 
-            // sort listview
+            // Sort list view
             if (listViewSortItem.Comparer != null)
             {
                 listViewSortItem.Comparer.SortBy = header;
@@ -64,7 +64,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
             view.Items.Refresh();
 
-            // change datatemplate of previous and current column header
+            // Change datatemplate of previous and current column header
             headerClicked.Column.HeaderTemplate = GetHeaderColumnsDataTemplate(view, listViewSortItem, sortDirection);
 
             // Set current sort values as last sort values
@@ -78,7 +78,6 @@ namespace FourWalledCubicle.DataSizeViewerExt
             if ((Boolean)(DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(DependencyObject)).DefaultValue)) return;
 
             ListView view = obj as ListView;
-
             if (view != null)
             {
                 _listViewDefinitions.Add(view.Name, new ListViewSortItem(GetCustomListViewSorter(obj) as IListViewCustomComparer, null, ListSortDirection.Ascending));
@@ -88,11 +87,11 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
         private static DataTemplate GetHeaderColumnsDataTemplate(ListView view, ListViewSortItem listViewSortItem, ListSortDirection sortDirection)
         {
-            // remove mark from previous sort column
+            // Remove mark from previous sort column
             if (listViewSortItem.LastColumnHeaderClicked != null)
                 listViewSortItem.LastColumnHeaderClicked.Column.HeaderTemplate = view.TryFindResource("ListViewHeaderTemplateNoSorting") as DataTemplate;
 
-            // set correct mark to current column
+            // Set correct mark to current column
             switch (sortDirection)
             {
                 case ListSortDirection.Ascending:
