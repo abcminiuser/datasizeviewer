@@ -8,7 +8,7 @@
              xmlns:cmp="clr-namespace:FourWalledCubicle.DataSizeViewerExt.Comparer"
              xmlns:cvt="clr-namespace:FourWalledCubicle.DataSizeViewerExt.Converter"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300"
+             d:DesignHeight="300" d:DesignWidth="800"
              Name="ELFSymbolSizes"
              Background="{DynamicResource {x:Static vsfx:VsBrushes.CommandBarGradientKey}}"
              DataContext="{Binding RelativeSource={RelativeSource Self}}">
@@ -32,7 +32,7 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        
+
         <cmp:ItemSizeComparer x:Key="ItemSizeComparer"/>
 
         <cvt:SymbolValidColorConverter x:Key="SymbolValidConverter"/>
@@ -65,30 +65,34 @@
     </UserControl.Resources>
 
     <DockPanel>
-        <DockPanel DockPanel.Dock="Top" Margin="8,6,8,4">
-            <TextBlock DockPanel.Dock="Left">
-                    <TextBlock.Inlines>
-                        <Run FontWeight="Bold" BaselineAlignment="Center">Project </Run>
-                        <ComboBox Name="projectList"></ComboBox>
-                    </TextBlock.Inlines>
-            </TextBlock>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="*" MaxWidth="350" />
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
 
-            <Button DockPanel.Dock="Right" Width="16" HorizontalAlignment="Right" Click="RefreshSymbolTable_Click" ToolTip="Reload Symbols">
-                <Button.Template>
-                    <ControlTemplate>
-                        <Image Source="/DataSizeViewer;component/Resources/Icon_Refresh.png" Style="{StaticResource toolbarButton}"/>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
+            <TextBlock Grid.Column="0" TextAlignment="Center" VerticalAlignment="Center" Text="Project"/>
+            <ComboBox Grid.Column="1" Name="projectList" Margin="3"></ComboBox>
 
-            <Button DockPanel.Dock="Right" Width="16" HorizontalAlignment="Right" Click="Settings_Click" ToolTip="Settings" Margin="1,1,5,1">
-                <Button.Template>
-                    <ControlTemplate>
-                        <Image Source="/DataSizeViewer;component/Resources/Icon_Settings.png" Style="{StaticResource toolbarButton}"/>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-        </DockPanel>
+            <DockPanel Grid.Column="2">
+                <Button DockPanel.Dock="Right" Width="16" HorizontalAlignment="Right" Click="RefreshSymbolTable_Click" ToolTip="Reload Symbols" Margin="1,1,5,1">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Image Source="/DataSizeViewer;component/Resources/Icon_Refresh.png" Style="{StaticResource toolbarButton}"/>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+                <Button DockPanel.Dock="Right" Width="16" HorizontalAlignment="Right" Click="Settings_Click" ToolTip="Settings" Margin="1,1,5,1">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Image Source="/DataSizeViewer;component/Resources/Icon_Settings.png" Style="{StaticResource toolbarButton}"/>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </DockPanel>
+        </Grid>
 
         <Grid DockPanel.Dock="Top" Visibility="Hidden">
             <Grid.ColumnDefinitions>

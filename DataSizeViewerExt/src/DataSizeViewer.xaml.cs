@@ -121,7 +121,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
             string startupProjectName = string.Empty;
             SolutionBuild solutionBuild = myDTE.Solution.SolutionBuild;
 
-            if ((solutionBuild == null)|| (solutionBuild.StartupProjects == null))
+            if ((solutionBuild == null) || (solutionBuild.StartupProjects == null))
                 return startupProjectName;
 
             Array startprojects = (Array)solutionBuild.StartupProjects;

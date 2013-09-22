@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CopyVsixExtensionFiles>True</CopyVsixExtensionFiles>
-    <CopyVsixExtensionLocation>C:\Users\Dean\AppData\Local\Atmel\AtmelStudio\6.1_Exp\Extensions\Dean Camera\Data Size Viewer</CopyVsixExtensionLocation>
+    <CopyVsixExtensionLocation>C:\Users\Dean\AppData\Local\Atmel\AtmelStudio\6.1\Extensions\Dean Camera\Data Size Viewer</CopyVsixExtensionLocation>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Atmel.Studio.Services.Interfaces, Version=6.1.0.0, Culture=neutral, PublicKeyToken=d264112969646cc9, processorArchitecture=MSIL" />
