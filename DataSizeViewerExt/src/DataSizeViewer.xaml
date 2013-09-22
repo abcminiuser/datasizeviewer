@@ -68,7 +68,7 @@
         <DockPanel DockPanel.Dock="Top" Margin="8,6,8,4">
             <TextBlock DockPanel.Dock="Left">
                     <TextBlock.Inlines>
-                        <Run FontWeight="Bold">Project </Run>
+                        <Run FontWeight="Bold" BaselineAlignment="Center">Project </Run>
                         <ComboBox Name="projectList"></ComboBox>
                     </TextBlock.Inlines>
             </TextBlock>
