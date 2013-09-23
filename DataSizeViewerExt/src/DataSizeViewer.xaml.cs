@@ -105,7 +105,10 @@ namespace FourWalledCubicle.DataSizeViewerExt
         {
             projectList.Items.Clear();
             foreach (Project p in myDTE.Solution.Projects)
-                projectList.Items.Add(p.UniqueName);
+            {
+                if (File.Exists(p.FullName))
+                    projectList.Items.Add(p.UniqueName);
+            }
 
             try
             {
