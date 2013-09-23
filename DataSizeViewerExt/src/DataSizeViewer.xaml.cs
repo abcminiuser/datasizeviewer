@@ -83,19 +83,24 @@ namespace FourWalledCubicle.DataSizeViewerExt
             string elfPath = null;
             string toolchainNMPath = null;
 
+            string previousDirectory = Directory.GetCurrentDirectory();
+            try
+            {
+                Directory.SetCurrentDirectory(Path.GetDirectoryName(project.FullName));
+                elfPath = Path.GetFullPath(Path.Combine(projectNode.GetProperty("OutputDirectory"), projectNode.GetProperty("OutputFilename") + ".elf"));
+            }
+            finally
+            {
+                Directory.SetCurrentDirectory(previousDirectory);
+            }
+
             ICCompilerToolchain toolchainC = mToolchainService.GetCCompilerToolchain(projectNode.ToolchainName, projectNode.GetProperty("ToolchainFlavour"));
             if (toolchainC != null)
-            {
-                elfPath = Path.Combine(projectNode.GetProperty("OutputDirectory"), projectNode.GetProperty("OutputFilename") + ".elf");
-                toolchainNMPath = Path.Combine(Path.GetDirectoryName(toolchainC.Compiler.FullPath), Path.GetFileName(toolchainC.Compiler.FullPath).Replace("gcc", "nm"));
-            }
+                toolchainNMPath = Path.Combine(Path.GetDirectoryName(toolchainC.Compiler.FullPath), Path.GetFileName(toolchainC.Compiler.FullPath.Replace("gcc", "nm")));
 
             ICppCompilerToolchain toolchainCpp = mToolchainService.GetCppCompilerToolchain(projectNode.ToolchainName, projectNode.GetProperty("ToolchainFlavour"));
             if (toolchainCpp != null)
-            {
-                elfPath = Path.Combine(projectNode.GetProperty("OutputDirectory"), projectNode.GetProperty("OutputFilename") + ".elf");
-                toolchainNMPath = Path.Combine(Path.GetDirectoryName(toolchainC.Compiler.FullPath), Path.GetFileName(toolchainCpp.CppCompiler.FullPath).Replace("g++", "nm"));
-            }
+                toolchainNMPath = Path.Combine(Path.GetDirectoryName(toolchainCpp.CppCompiler.FullPath), Path.GetFileName(toolchainCpp.CppCompiler.FullPath.Replace("g++", "nm")));
 
             if (File.Exists(elfPath) && File.Exists(toolchainNMPath))
                 Dispatcher.Invoke(new Action(() => mSymbolParser.ReloadSymbols(elfPath, toolchainNMPath, DataSizeViewerPackage.Options.VerifyLocations)));
