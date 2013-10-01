@@ -2,15 +2,15 @@
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows;
 using Atmel.Studio.Extensibility.Toolchain;
 using Atmel.Studio.Services;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
-using System.Text;
 
 namespace FourWalledCubicle.DataSizeViewerExt
 {
