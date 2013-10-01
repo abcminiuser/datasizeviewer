@@ -142,11 +142,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
             if ((solutionBuild == null) || (solutionBuild.StartupProjects == null))
                 return startupProjectName;
 
-            Array startprojects = (Array)solutionBuild.StartupProjects;
-            if (startprojects.GetLength(0) > 1)
-                return startupProjectName;
-
-            foreach (string el in startprojects)
+            foreach (string el in (Array)solutionBuild.StartupProjects)
                 startupProjectName += el;
 
             return startupProjectName;
@@ -192,7 +188,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
         void symbolSize_CopyCmdCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = (symbolSize.Items.Count > 0);
+            e.CanExecute = (symbolSize.Items.IsEmpty == false);
         }
 
         private void RefreshSymbolTable_Click(object sender, RoutedEventArgs e)
