@@ -67,13 +67,13 @@
     <DockPanel>
         <Grid DockPanel.Dock="Top">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50"/>
-                <ColumnDefinition Width="*" MaxWidth="350" />
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="0" TextAlignment="Center" VerticalAlignment="Center" Text="Project"/>
-            <ComboBox Grid.Column="1" Name="projectList" Margin="3"></ComboBox>
+            <TextBlock Grid.Column="0" TextAlignment="Center" VerticalAlignment="Center" Padding="5,0,5,0" Text="Show Symbols from Project:"/>
+            <ComboBox Grid.Column="1" Name="projectList" Margin="3" HorizontalAlignment="Left" MinWidth="300"></ComboBox>
 
             <DockPanel Grid.Column="2">
                 <Button DockPanel.Dock="Right" Width="16" HorizontalAlignment="Right" Click="RefreshSymbolTable_Click" ToolTip="Reload Symbols" Margin="1,1,5,1">

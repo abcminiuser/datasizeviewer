@@ -41,15 +41,17 @@ namespace FourWalledCubicle.DataSizeViewerExt
             mSolutionEvents.ProjectRemoved += (p) => UpdateProjectList();
             mSolutionEvents.ProjectRenamed += (p, s) => UpdateProjectList();
 
-            mToolchainService = ATServiceProvider.ToolchainService;
-
             projectList.SelectionChanged += (s, e) => ReloadProjectSymbols();
+
+            mToolchainService = ATServiceProvider.ToolchainService;
 
             mSymbolParser = new SymbolSizeParser();
             symbolSize.ItemsSource = mSymbolParser.symbolSizes;
 
             ICollectionView dataView = CollectionViewSource.GetDefaultView(mSymbolParser.symbolSizes);
             dataView.GroupDescriptions.Add(new PropertyGroupDescription("Storage"));
+
+            UpdateProjectList();
         }
 
         private void ReloadProjectSymbols()
@@ -108,6 +110,11 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
         private void UpdateProjectList()
         {
+            string currentSelection = string.Empty;
+
+            if (projectList.SelectedItem != null)
+                currentSelection = projectList.SelectedItem.ToString();
+
             projectList.Items.Clear();
             foreach (Project p in myDTE.Solution.Projects)
             {
@@ -115,9 +122,12 @@ namespace FourWalledCubicle.DataSizeViewerExt
                     projectList.Items.Add(p.UniqueName);
             }
 
+            if (string.IsNullOrEmpty(currentSelection))
+                currentSelection = GetStartupProjectName(myDTE);
+
             try
             {
-                projectList.SelectedItem = myDTE.Solution.Projects.Item(GetStartupProjectName(myDTE)).UniqueName;
+                projectList.SelectedItem = myDTE.Solution.Projects.Item(currentSelection).UniqueName;
             }
             catch { }
 
@@ -136,7 +146,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
             if (startprojects.GetLength(0) > 1)
                 return startupProjectName;
 
-            foreach (string el in (Array)solutionBuild.StartupProjects)
+            foreach (string el in startprojects)
                 startupProjectName += el;
 
             return startupProjectName;
@@ -187,7 +197,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
         private void RefreshSymbolTable_Click(object sender, RoutedEventArgs e)
         {
-            ReloadProjectSymbols();
+            UpdateProjectList();
         }
 
         private void Settings_Click(object sender, RoutedEventArgs e)
