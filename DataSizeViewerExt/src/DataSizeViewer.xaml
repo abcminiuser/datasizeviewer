@@ -21,18 +21,6 @@
             <Setter Property="HorizontalContentAlignment" Value="Right"/>
         </Style>
 
-        <Style x:Key="toolbarButton" TargetType="Image">
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="BitmapEffect">
-                        <Setter.Value>
-                            <DropShadowBitmapEffect Color="DarkGray" Direction="320" ShadowDepth="3" Softness=".1" Opacity="0.6"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
         <cmp:ItemSizeComparer x:Key="ItemSizeComparer"/>
 
         <cvt:SymbolValidColorConverter x:Key="SymbolValidConverter"/>
@@ -65,34 +53,19 @@
     </UserControl.Resources>
 
     <DockPanel>
-        <Grid DockPanel.Dock="Top">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+        <ToolBarPanel DockPanel.Dock="Top" Orientation="Horizontal">
+            <TextBlock Grid.Column="0" Margin="6" Text="Show symbols from:"/>
+            <ComboBox Grid.Column="1" Name="projectList" Margin="2" MinWidth="300" Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"/>
+            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"/>
 
-            <TextBlock Grid.Column="0" TextAlignment="Center" VerticalAlignment="Center" Padding="5,0,5,0" Text="Show Symbols from Project:"/>
-            <ComboBox Grid.Column="1" Name="projectList" Margin="3" HorizontalAlignment="Left" MinWidth="300"></ComboBox>
+            <Button Click="RefreshSymbolTable_Click" ToolTip="Reload Symbols" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                <Image Width="16" Source="/DataSizeViewer;component/Resources/Icon_Refresh.png"/>
+            </Button>
 
-            <DockPanel Grid.Column="2">
-                <Button DockPanel.Dock="Right" Width="16" HorizontalAlignment="Right" Click="RefreshSymbolTable_Click" ToolTip="Reload Symbols" Margin="1,1,5,1">
-                    <Button.Template>
-                        <ControlTemplate>
-                            <Image Source="/DataSizeViewer;component/Resources/Icon_Refresh.png" Style="{StaticResource toolbarButton}"/>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-
-                <Button DockPanel.Dock="Right" Width="16" HorizontalAlignment="Right" Click="Settings_Click" ToolTip="Settings" Margin="1,1,5,1">
-                    <Button.Template>
-                        <ControlTemplate>
-                            <Image Source="/DataSizeViewer;component/Resources/Icon_Settings.png" Style="{StaticResource toolbarButton}"/>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-            </DockPanel>
-        </Grid>
+            <Button Click="Settings_Click" ToolTip="Settings" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                <Image Width="16" Source="/DataSizeViewer;component/Resources/Icon_Settings.png"/>
+            </Button>
+        </ToolBarPanel>
 
         <Grid DockPanel.Dock="Top" Visibility="Hidden">
             <Grid.ColumnDefinitions>
