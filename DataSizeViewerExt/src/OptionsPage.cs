@@ -58,21 +58,5 @@ namespace FourWalledCubicle.DataSizeViewerExt
             get { return mUnavailableDataSymbolColor; }
             set { mUnavailableDataSymbolColor = value; }
         }
-
-        [DisplayName("Show Text Symbols")]
-        [Description("Show Text Symbols in the list when enabled.")]
-        public bool ShowTextSymbols
-        {
-            get { return mShowTextSymbols; }
-            set { mShowTextSymbols = value; }
-        }
-
-        [DisplayName("Show Data Symbols")]
-        [Description("Show Data Symbols in the list when enabled.")]
-        public bool ShowDataSymbols
-        {
-            get { return mShowDataSymbols; }
-            set { mShowDataSymbols = value; }
-        }
     }
 }

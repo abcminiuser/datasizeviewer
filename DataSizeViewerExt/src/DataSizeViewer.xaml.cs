@@ -25,31 +25,34 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
         private SymbolSizeParser mSymbolParser;
 
-        public bool mShowDataSegment {
+        private bool mShowDataSegmentState = true;
+        public bool mShowDataSegment
+        {
             get
             {
-                return DataSizeViewerPackage.Options.ShowDataSymbols;
+                return mShowDataSegmentState;
             }
 
             set
             {
-                DataSizeViewerPackage.Options.ShowDataSymbols = value;
+                mShowDataSegmentState = value;
 
                 ICollectionView dataView = CollectionViewSource.GetDefaultView(mSymbolParser.symbolSizes);
                 dataView.Refresh();
             }
         }
 
+        private bool mShowTextSegmentState = true;
         public bool mShowTextSegment
         {
             get
             {
-                return DataSizeViewerPackage.Options.ShowTextSymbols;
+                return mShowTextSegmentState;
             }
 
             set
             {
-                DataSizeViewerPackage.Options.ShowTextSymbols = value;
+                mShowTextSegmentState = value;
 
                 ICollectionView dataView = CollectionViewSource.GetDefaultView(mSymbolParser.symbolSizes);
                 dataView.Refresh();
