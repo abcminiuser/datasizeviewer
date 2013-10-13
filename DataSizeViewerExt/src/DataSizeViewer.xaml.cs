@@ -25,6 +25,37 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
         private SymbolSizeParser mSymbolParser;
 
+        public bool mShowDataSegment {
+            get
+            {
+                return DataSizeViewerPackage.Options.ShowDataSymbols;
+            }
+
+            set
+            {
+                DataSizeViewerPackage.Options.ShowDataSymbols = value;
+
+                ICollectionView dataView = CollectionViewSource.GetDefaultView(mSymbolParser.symbolSizes);
+                dataView.Refresh();
+            }
+        }
+
+        public bool mShowTextSegment
+        {
+            get
+            {
+                return DataSizeViewerPackage.Options.ShowTextSymbols;
+            }
+
+            set
+            {
+                DataSizeViewerPackage.Options.ShowTextSymbols = value;
+
+                ICollectionView dataView = CollectionViewSource.GetDefaultView(mSymbolParser.symbolSizes);
+                dataView.Refresh();
+            }
+        }
+
         public DataSizeViewerUI()
         {
             InitializeComponent();
@@ -50,6 +81,12 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
             ICollectionView dataView = CollectionViewSource.GetDefaultView(mSymbolParser.symbolSizes);
             dataView.GroupDescriptions.Add(new PropertyGroupDescription("Storage"));
+            dataView.Filter =
+                (v) => {
+                    return
+                        (mShowDataSegment && (v as ItemSize).Storage.Contains("Data")) ||
+                        (mShowTextSegment && (v as ItemSize).Storage.Contains("Text"));
+                    };
 
             UpdateProjectList();
         }

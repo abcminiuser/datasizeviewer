@@ -56,6 +56,7 @@
         <ToolBarPanel DockPanel.Dock="Top" Orientation="Horizontal" Background="{DynamicResource {x:Static vsfx:VsBrushes.CommandBarGradientKey}}">            
             <TextBlock Grid.Column="0" Margin="6" Text="Show symbols from:"/>
             <ComboBox Grid.Column="1" Name="projectList" Margin="2" MinWidth="300" Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"/>
+
             <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"/>
 
             <Button Click="RefreshSymbolTable_Click" ToolTip="Reload Symbols" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
@@ -65,6 +66,16 @@
             <Button Click="Settings_Click" ToolTip="Settings" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
                 <Image Width="16" Source="/DataSizeViewer;component/Resources/Icon_Settings.png"/>
             </Button>
+
+            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"  Margin="5,0,5,0" />
+
+            <ToggleButton IsChecked="{Binding mShowTextSegment, Mode=TwoWay}" ToolTip="Show Text Segment" Margin="5,0,5,0" Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}">
+                Text Segment
+            </ToggleButton>
+
+            <ToggleButton IsChecked="{Binding mShowDataSegment, Mode=TwoWay}"  ToolTip="Show Data Segment" Margin="5,0,5,0" Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}">
+                Data Segment
+            </ToggleButton>
         </ToolBarPanel>
 
         <Grid DockPanel.Dock="Top" Visibility="Hidden">

@@ -12,6 +12,8 @@ namespace FourWalledCubicle.DataSizeViewerExt
         private Color mUnavailableTextSymbolColor = Colors.DarkGray;
         private Color mDataSymbolColor = Colors.DarkBlue;
         private Color mUnavailableDataSymbolColor = Colors.DarkGray;
+        private bool mShowTextSymbols = true;
+        private bool mShowDataSymbols = true;
 
         [DisplayName("Verify Symbol Locations")]
         [Description("Verify that a symbol's location source file exists; if not, the unavailable symbol color is used.")]
@@ -55,6 +57,22 @@ namespace FourWalledCubicle.DataSizeViewerExt
         {
             get { return mUnavailableDataSymbolColor; }
             set { mUnavailableDataSymbolColor = value; }
+        }
+
+        [DisplayName("Show Text Symbols")]
+        [Description("Show Text Symbols in the list when enabled.")]
+        public bool ShowTextSymbols
+        {
+            get { return mShowTextSymbols; }
+            set { mShowTextSymbols = value; }
+        }
+
+        [DisplayName("Show Data Symbols")]
+        [Description("Show Data Symbols in the list when enabled.")]
+        public bool ShowDataSymbols
+        {
+            get { return mShowDataSymbols; }
+            set { mShowDataSymbols = value; }
         }
     }
 }
