@@ -53,7 +53,7 @@
     </UserControl.Resources>
 
     <DockPanel>
-        <ToolBarPanel DockPanel.Dock="Top" Orientation="Horizontal">
+        <ToolBarPanel DockPanel.Dock="Top" Orientation="Horizontal" Background="{DynamicResource {x:Static vsfx:VsBrushes.CommandBarGradientKey}}">            
             <TextBlock Grid.Column="0" Margin="6" Text="Show symbols from:"/>
             <ComboBox Grid.Column="1" Name="projectList" Margin="2" MinWidth="300" Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"/>
             <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"/>
