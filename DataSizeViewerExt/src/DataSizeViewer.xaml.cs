@@ -59,6 +59,23 @@ namespace FourWalledCubicle.DataSizeViewerExt
             }
         }
 
+        private string mFilterStringValue = string.Empty;
+        public string mFilterString
+        {
+            get
+            {
+                return mFilterStringValue;
+            }
+
+            set
+            {
+                mFilterStringValue = value;
+
+                ICollectionView dataView = CollectionViewSource.GetDefaultView(mSymbolParser.symbolSizes);
+                dataView.Refresh();
+            }
+        }
+
         public DataSizeViewerUI()
         {
             InitializeComponent();
@@ -86,9 +103,11 @@ namespace FourWalledCubicle.DataSizeViewerExt
             dataView.GroupDescriptions.Add(new PropertyGroupDescription("Storage"));
             dataView.Filter =
                 (v) => {
-                    return
-                        (mShowDataSegment && (v as ItemSize).Storage.Contains("Data")) ||
-                        (mShowTextSegment && (v as ItemSize).Storage.Contains("Text"));
+                    ItemSize currentItem = (v as ItemSize);
+
+                    return currentItem.Name.Contains(mFilterString) &&
+                        ((mShowDataSegment && currentItem.Storage.Contains("Data")) ||
+                         (mShowTextSegment && currentItem.Storage.Contains("Text")));
                     };
 
             UpdateProjectList();
