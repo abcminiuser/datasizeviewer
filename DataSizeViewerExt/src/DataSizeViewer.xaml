@@ -69,13 +69,13 @@
 
             <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"  Margin="5,0,5,0" />
 
-            <ToggleButton IsChecked="{Binding mShowTextSegment, Mode=TwoWay}" ToolTip="Show Text Segment" Margin="5,0,5,0" Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}">
+            <CheckBox VerticalAlignment="Center" IsChecked="{Binding mShowTextSegment, Mode=TwoWay}" ToolTip="Show Text Segment" Margin="5,0,5,0">
                 Text Segment
-            </ToggleButton>
+            </CheckBox>
 
-            <ToggleButton IsChecked="{Binding mShowDataSegment, Mode=TwoWay}"  ToolTip="Show Data Segment" Margin="5,0,5,0" Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}">
+            <CheckBox VerticalAlignment="Center" IsChecked="{Binding mShowDataSegment, Mode=TwoWay}" ToolTip="Show Data Segment" Margin="5,0,5,0">
                 Data Segment
-            </ToggleButton>
+            </CheckBox>
         </ToolBarPanel>
 
         <Grid DockPanel.Dock="Top" Visibility="Hidden">
