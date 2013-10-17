@@ -12,8 +12,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
         private Color mUnavailableTextSymbolColor = Colors.DarkGray;
         private Color mDataSymbolColor = Colors.DarkBlue;
         private Color mUnavailableDataSymbolColor = Colors.DarkGray;
-        private bool mShowTextSymbols = true;
-        private bool mShowDataSymbols = true;
+        private bool mUseRegExFilter = false;
 
         [DisplayName("Verify Symbol Locations")]
         [Description("Verify that a symbol's location source file exists; if not, the unavailable symbol color is used.")]
@@ -58,5 +57,13 @@ namespace FourWalledCubicle.DataSizeViewerExt
             get { return mUnavailableDataSymbolColor; }
             set { mUnavailableDataSymbolColor = value; }
         }
+
+        [DisplayName("Use Regular Expression Filtering")]
+        [Description("Use Regular Expressions instead of simple matching in the filter box.")]
+        public bool UseRegExFiltering
+        {
+            get { return mUseRegExFilter; }
+            set { mUseRegExFilter = value; }
+        }    
     }
 }

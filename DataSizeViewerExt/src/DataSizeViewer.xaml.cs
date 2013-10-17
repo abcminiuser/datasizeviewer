@@ -11,6 +11,7 @@ using Atmel.Studio.Extensibility.Toolchain;
 using Atmel.Studio.Services;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
+using System.Text.RegularExpressions;
 
 namespace FourWalledCubicle.DataSizeViewerExt
 {
@@ -104,10 +105,20 @@ namespace FourWalledCubicle.DataSizeViewerExt
             dataView.Filter =
                 (v) => {
                     ItemSize currentItem = (v as ItemSize);
+                    bool isMatch = false;
 
-                    return currentItem.Name.Contains(mFilterString) &&
-                        ((mShowDataSegment && currentItem.Storage.Contains("Data")) ||
-                         (mShowTextSegment && currentItem.Storage.Contains("Text")));
+                    try
+                    {
+                        if (DataSizeViewerPackage.Options.UseRegExFiltering)
+                            isMatch = (new Regex(mFilterString)).IsMatch(currentItem.Name);
+                        else
+                            isMatch = currentItem.Name.Contains(mFilterString);
+                    }
+                    catch { }
+
+                    return isMatch &&
+                            ((mShowDataSegment && currentItem.Storage.Contains("Data")) ||
+                            (mShowTextSegment && currentItem.Storage.Contains("Text")));
                     };
 
             UpdateProjectList();

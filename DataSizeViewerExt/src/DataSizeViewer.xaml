@@ -80,7 +80,7 @@
             <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="5,0,5,0" />
 
             <Label Margin="5,0,0,0" VerticalAlignment="Center">Filter:</Label>
-            <TextBox MinWidth="100" Margin="0,5,0,5" Text="{Binding mFilterString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Margin="0,5,0,5" Text="{Binding mFilterString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="250" />
         </ToolBarPanel>
 
         <Grid DockPanel.Dock="Top" Visibility="Hidden">
