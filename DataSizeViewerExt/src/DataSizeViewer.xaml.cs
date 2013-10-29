@@ -102,26 +102,28 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
             ICollectionView dataView = CollectionViewSource.GetDefaultView(mSymbolParser.symbolSizes);
             dataView.GroupDescriptions.Add(new PropertyGroupDescription("Storage"));
-            dataView.Filter =
-                (v) => {
-                    ItemSize currentItem = (v as ItemSize);
-                    bool isMatch = false;
-
-                    try
-                    {
-                        if (DataSizeViewerPackage.Options.UseRegExFiltering)
-                            isMatch = (new Regex(mFilterString)).IsMatch(currentItem.Name);
-                        else
-                            isMatch = currentItem.Name.Contains(mFilterString);
-                    }
-                    catch { }
-
-                    return isMatch &&
-                            ((mShowDataSegment && currentItem.Storage.Contains("Data")) ||
-                            (mShowTextSegment && currentItem.Storage.Contains("Text")));
-                    };
+            dataView.Filter = FilterSymbolEntries;
 
             UpdateProjectList();
+        }
+
+        private bool FilterSymbolEntries(Object currentEntry)
+        {
+            ItemSize currentItem = (currentEntry as ItemSize);
+            bool isMatch = false;
+
+            try
+            {
+                if (DataSizeViewerPackage.Options.UseRegExFiltering)
+                    isMatch = (new Regex(mFilterString)).IsMatch(currentItem.Name);
+                else
+                    isMatch = currentItem.Name.Contains(mFilterString);
+            }
+            catch { }
+
+            return isMatch &&
+                    ((mShowDataSegment && currentItem.Storage.Contains("Data")) ||
+                    (mShowTextSegment && currentItem.Storage.Contains("Text")));
         }
 
         private void ReloadProjectSymbols()
