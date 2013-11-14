@@ -99,6 +99,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
             mSymbolParser = new SymbolSizeParser();
             symbolSize.ItemsSource = mSymbolParser.symbolSizes;
+            ShowError("No symbols have been loaded. Recompile or click the refresh button.");
 
             ICollectionView dataView = CollectionViewSource.GetDefaultView(mSymbolParser.symbolSizes);
             dataView.GroupDescriptions.Add(new PropertyGroupDescription("Storage"));
@@ -177,7 +178,36 @@ namespace FourWalledCubicle.DataSizeViewerExt
                 toolchainNMPath = Path.Combine(Path.GetDirectoryName(toolchainCpp.CppCompiler.FullPath), Path.GetFileName(toolchainCpp.CppCompiler.FullPath.Replace("g++", "nm")));
 
             if (File.Exists(elfPath) && File.Exists(toolchainNMPath))
-                Dispatcher.Invoke(new Action(() => mSymbolParser.ReloadSymbols(elfPath, toolchainNMPath, DataSizeViewerPackage.Options.VerifyLocations)));
+            {
+                var dispatcher = Dispatcher.BeginInvoke(new Action(() => mSymbolParser.ReloadSymbols(elfPath, toolchainNMPath, DataSizeViewerPackage.Options.VerifyLocations)));
+
+                dispatcher.Completed += (s, e) => { ShowSymbolTable(); };
+
+                if (dispatcher.Status == System.Windows.Threading.DispatcherOperationStatus.Completed)
+                    ShowSymbolTable();
+            }
+            else
+            {
+                ShowError("Could not find ELF file. Make sure that the default ELF file is available in the output directory.");
+            }
+        }
+
+        private void ShowError(String message)
+        {
+            ShowError();
+            errorMessage.Content = message;
+        }
+        private void ShowError()
+        {
+            errorMessage.Visibility = Visibility.Visible;
+            symbolSize.Visibility = Visibility.Hidden;
+        }
+
+        private void ShowSymbolTable()
+        {
+            errorMessage.Content = string.Empty;
+            symbolSize.Visibility = Visibility.Visible;
+            errorMessage.Visibility = Visibility.Hidden;
         }
 
         private void UpdateProjectList()
