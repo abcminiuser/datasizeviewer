@@ -99,7 +99,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
             mSymbolParser = new SymbolSizeParser();
             symbolSize.ItemsSource = mSymbolParser.symbolSizes;
-            ShowError("No symbols have been loaded. Recompile or click the refresh button.");
+            ShowError("No symbols have been loaded. Ensure you are compiling in Debug mode, and have debug symbols enabled in your toolchain options.");
 
             ICollectionView dataView = CollectionViewSource.GetDefaultView(mSymbolParser.symbolSizes);
             dataView.GroupDescriptions.Add(new PropertyGroupDescription("Storage"));
@@ -197,6 +197,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
             ShowError();
             errorMessage.Content = message;
         }
+
         private void ShowError()
         {
             errorMessage.Visibility = Visibility.Visible;
