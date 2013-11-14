@@ -94,8 +94,6 @@
             <Grid Grid.Column="0" x:Name="nameColumnStretcher" />
         </Grid>
         
-        <Label Name="errorMessage" DockPanel.Dock="Top" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Visible"/>
-
         <ListView DockPanel.Dock="Top"
                       Name="symbolSize"
                       HorizontalAlignment="Stretch"
@@ -138,5 +136,8 @@
                 </GridView>
             </ListView.View>
         </ListView>
+
+        <Label Name="errorMessage" VerticalAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Visibility="Visible"/>
+
     </DockPanel>
 </UserControl>
