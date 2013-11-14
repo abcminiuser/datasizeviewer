@@ -93,6 +93,8 @@
 
             <Grid Grid.Column="0" x:Name="nameColumnStretcher" />
         </Grid>
+        
+        <Label Name="errorMessage" DockPanel.Dock="Top" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Visible"/>
 
         <ListView DockPanel.Dock="Top"
                       Name="symbolSize"
@@ -103,7 +105,8 @@
                       dsv:ListViewSorter.CustomListViewSorter="{StaticResource ResourceKey=ItemSizeComparer}"
                       ScrollViewer.CanContentScroll="True"
                       ScrollViewer.VerticalScrollBarVisibility="Auto"
-                      BorderThickness="0">
+                      BorderThickness="0" 
+                      Visibility="Hidden">
 
             <ListBox.CommandBindings>
                 <CommandBinding Command="ApplicationCommands.Copy" CanExecute="symbolSize_CopyCmdCanExecute" Executed="symbolSize_CopyCmdExecuted" />
