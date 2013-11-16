@@ -206,12 +206,10 @@ namespace FourWalledCubicle.DataSizeViewerExt
             errorMessageSecondary.Text = messageSecondary;
 
             errorMessagePanel.Visibility = Visibility.Visible;
-            symbolSize.Visibility = Visibility.Hidden;
         }
 
         private void ShowSymbolTable()
         {
-            symbolSize.Visibility = Visibility.Visible;
             errorMessagePanel.Visibility = Visibility.Hidden;
         }
 

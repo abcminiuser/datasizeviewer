@@ -52,8 +52,8 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <DockPanel>
-        <ToolBarPanel DockPanel.Dock="Top" Orientation="Horizontal" Background="{DynamicResource {x:Static vsfx:VsBrushes.CommandBarGradientKey}}">            
+    <DockPanel Background="White">
+        <ToolBarPanel DockPanel.Dock="Top" Orientation="Horizontal" Background="{DynamicResource {x:Static vsfx:VsBrushes.CommandBarGradientKey}}">
             <TextBlock Grid.Column="0" Margin="6" Text="Show symbols from:"/>
             <ComboBox Grid.Column="1" Name="projectList" Margin="2" MinWidth="300" Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"/>
 
@@ -93,7 +93,7 @@
 
             <Grid Grid.Column="0" x:Name="nameColumnStretcher" />
         </Grid>
-        
+
         <ListView DockPanel.Dock="Top"
                       Name="symbolSize"
                       HorizontalAlignment="Stretch"
@@ -103,8 +103,8 @@
                       dsv:ListViewSorter.CustomListViewSorter="{StaticResource ResourceKey=ItemSizeComparer}"
                       ScrollViewer.CanContentScroll="True"
                       ScrollViewer.VerticalScrollBarVisibility="Auto"
-                      BorderThickness="0" 
-                      Visibility="Hidden">
+                      BorderThickness="0"
+                      Visibility="Visible">
 
             <ListBox.CommandBindings>
                 <CommandBinding Command="ApplicationCommands.Copy" CanExecute="symbolSize_CopyCmdCanExecute" Executed="symbolSize_CopyCmdExecuted" />
@@ -138,10 +138,10 @@
         </ListView>
 
         <StackPanel Name="errorMessagePanel" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Visible">
-            <TextBlock Name="errorMessagePrimary" FontSize="20" Margin="6" TextAlignment="Center">
+            <TextBlock Name="errorMessagePrimary" FontSize="18" Margin="6" TextAlignment="Center" Foreground="#FF6E6E6E">
                 Primary Error Message Text
             </TextBlock>
-            <TextBlock Name="errorMessageSecondary" FontSize="14" FontStyle="Italic" TextWrapping="Wrap">
+            <TextBlock Name="errorMessageSecondary" FontSize="14" FontStyle="Italic" TextWrapping="Wrap" Foreground="#FF6E6E6E">
                 Secondary Error Message Text.
             </TextBlock>
         </StackPanel>
