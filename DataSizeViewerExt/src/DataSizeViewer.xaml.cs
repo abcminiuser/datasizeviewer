@@ -3,15 +3,16 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Threading;
 using Atmel.Studio.Extensibility.Toolchain;
 using Atmel.Studio.Services;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
-using System.Text.RegularExpressions;
 
 namespace FourWalledCubicle.DataSizeViewerExt
 {
@@ -179,16 +180,23 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
             if (File.Exists(elfPath) && File.Exists(toolchainNMPath))
             {
-                var dispatcher = Dispatcher.BeginInvoke(new Action(() => mSymbolParser.ReloadSymbols(elfPath, toolchainNMPath, DataSizeViewerPackage.Options.VerifyLocations)));
+                var dispatcher = Dispatcher.BeginInvoke(
+                        new Action(
+                                () => mSymbolParser.ReloadSymbols(elfPath, toolchainNMPath, DataSizeViewerPackage.Options.VerifyLocations)
+                            )
+                    );
 
                 dispatcher.Completed += (s, e) => { ShowSymbolTable(); };
 
-                if (dispatcher.Status == System.Windows.Threading.DispatcherOperationStatus.Completed)
+                if (dispatcher.Status == DispatcherOperationStatus.Completed)
                     ShowSymbolTable();
             }
             else
             {
-                ShowError("Could not find project ELF file.", "Verify that the ELF file output specified in your project options exists.");
+                if (!File.Exists(elfPath))
+                    ShowError("Could not find project ELF file.", "Verify that the ELF file output specified in your project options exists.");
+                else
+                    ShowError("Could not find toolchain executable.", "Verify that your project toolchain configuration is correctly set.");
             }
         }
 
