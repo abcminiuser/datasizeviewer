@@ -99,7 +99,6 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
             mSymbolParser = new SymbolSizeParser();
             symbolSize.ItemsSource = mSymbolParser.symbolSizes;
-            ShowError("No symbols have been loaded. Ensure you are compiling in Debug mode, and have debug symbols enabled in your toolchain options.");
 
             ICollectionView dataView = CollectionViewSource.GetDefaultView(mSymbolParser.symbolSizes);
             dataView.GroupDescriptions.Add(new PropertyGroupDescription("Storage"));
@@ -129,6 +128,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
         private void ReloadProjectSymbols()
         {
+            ShowError("No symbols have been loaded.", "Ensure you are compiling in Debug mode, and have debug symbols enabled in your toolchain options.");
             mSymbolParser.ClearSymbols();
 
             if (projectList.SelectedItem == null)
@@ -188,27 +188,27 @@ namespace FourWalledCubicle.DataSizeViewerExt
             }
             else
             {
-                ShowError("Could not find ELF file. Make sure that the default ELF file is available in the output directory.");
+                ShowError("Could not find project ELF file.", "Verify that the ELF file output specified in your project options exists.");
             }
         }
 
-        private void ShowError(String message)
+        private void ShowError(String messagePrimary, String messageSecondary)
         {
             ShowError();
-            errorMessage.Content = message;
+            errorMessagePrimary.Text = messagePrimary;
+            errorMessageSecondary.Text = messageSecondary;
         }
 
         private void ShowError()
         {
-            errorMessage.Visibility = Visibility.Visible;
+            errorMessagePanel.Visibility = Visibility.Visible;
             symbolSize.Visibility = Visibility.Hidden;
         }
 
         private void ShowSymbolTable()
         {
-            errorMessage.Content = string.Empty;
             symbolSize.Visibility = Visibility.Visible;
-            errorMessage.Visibility = Visibility.Hidden;
+            errorMessagePanel.Visibility = Visibility.Hidden;
         }
 
         private void UpdateProjectList()

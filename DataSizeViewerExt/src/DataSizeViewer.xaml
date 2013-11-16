@@ -137,7 +137,13 @@
             </ListView.View>
         </ListView>
 
-        <Label Name="errorMessage" VerticalAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Visibility="Visible"/>
-
+        <StackPanel Name="errorMessagePanel" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Visible">
+            <TextBlock Name="errorMessagePrimary" FontSize="20" Margin="6" TextAlignment="Center">
+                Primary Error Message Text
+            </TextBlock>
+            <TextBlock Name="errorMessageSecondary" FontSize="14" FontStyle="Italic" TextWrapping="Wrap">
+                Secondary Error Message Text.
+            </TextBlock>
+        </StackPanel>
     </DockPanel>
 </UserControl>
