@@ -194,13 +194,9 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
         private void ShowError(String messagePrimary, String messageSecondary)
         {
-            ShowError();
             errorMessagePrimary.Text = messagePrimary;
             errorMessageSecondary.Text = messageSecondary;
-        }
 
-        private void ShowError()
-        {
             errorMessagePanel.Visibility = Visibility.Visible;
             symbolSize.Visibility = Visibility.Hidden;
         }
