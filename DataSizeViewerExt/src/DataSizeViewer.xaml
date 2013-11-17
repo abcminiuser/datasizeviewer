@@ -31,7 +31,7 @@
                 <Path x:Name="arrow"
                     StrokeThickness = "1"
                     Fill            = "gray"
-                    Data            = "M 5,10 L 15,10 L 10,5 L 5,10"/>
+                    Data            = "M 5,5 L 10,10 L 15,5 L 5,5"/>
             </DockPanel>
         </DataTemplate>
 
@@ -41,7 +41,7 @@
                 <Path x:Name="arrow"
                     StrokeThickness = "1"
                     Fill            = "gray"
-                    Data            = "M 5,5 L 10,10 L 15,5 L 5,5"/>
+                    Data            = "M 5,10 L 15,10 L 10,5 L 5,10"/>
             </DockPanel>
         </DataTemplate>
 
