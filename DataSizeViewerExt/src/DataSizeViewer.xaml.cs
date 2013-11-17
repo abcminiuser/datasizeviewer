@@ -129,8 +129,9 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
         private void ReloadProjectSymbols()
         {
-            ShowError("No symbols have been loaded.", "Ensure you are compiling in Debug mode, and have debug symbols enabled in your toolchain options.");
             mSymbolParser.ClearSymbols();
+
+            ShowError("No project is currently selected.", "Select a project from the toolbar to display symbols.");
 
             if (projectList.SelectedItem == null)
                 return;
@@ -138,6 +139,8 @@ namespace FourWalledCubicle.DataSizeViewerExt
             String projectName = (String)projectList.SelectedItem.ToString();
             if (String.IsNullOrEmpty(projectName))
                 return;
+
+            ShowError("An internal error has occurred.", "Project could not be loaded.");
 
             Project project = null;
             try
@@ -152,6 +155,8 @@ namespace FourWalledCubicle.DataSizeViewerExt
             IProjectHandle projectNode = project.Object as IProjectHandle;
             if (projectNode == null)
                 return;
+
+            ShowError("An internal error has occurred.", "Toolchain service could not be loaded.");
 
             if (mToolchainService == null)
                 return;
@@ -180,16 +185,25 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
             if (File.Exists(elfPath) && File.Exists(toolchainNMPath))
             {
-                var dispatcher = Dispatcher.BeginInvoke(
+                ShowError("No symbols have been loaded.", "Ensure you are compiling in Debug mode, and have debug symbols enabled in your toolchain options.");
+
+                DispatcherOperation dispatcher = Dispatcher.BeginInvoke(
                         new Action(
                                 () => mSymbolParser.ReloadSymbols(elfPath, toolchainNMPath, DataSizeViewerPackage.Options.VerifyLocations)
                             )
                     );
 
-                dispatcher.Completed += (s, e) => { ShowSymbolTable(); };
+                dispatcher.Completed += (s, e) =>
+                    {
+                        if (symbolSize.Items.Count != 0)
+                            ShowSymbolTable();
+                    };
 
                 if (dispatcher.Status == DispatcherOperationStatus.Completed)
-                    ShowSymbolTable();
+                {
+                    if (symbolSize.Items.Count != 0)
+                        ShowSymbolTable();
+                }
             }
             else
             {
