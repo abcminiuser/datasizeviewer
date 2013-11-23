@@ -310,12 +310,12 @@ namespace FourWalledCubicle.DataSizeViewerExt
             e.CanExecute = (symbolSize.Items.IsEmpty == false);
         }
 
-        private void RefreshSymbolTable_Click(object sender, RoutedEventArgs e)
+        private void refreshSymbolTable_Click(object sender, RoutedEventArgs e)
         {
             UpdateProjectList();
         }
 
-        private void Settings_Click(object sender, RoutedEventArgs e)
+        private void settings_Click(object sender, RoutedEventArgs e)
         {
             DataSizeViewerPackage.Package.ShowOptionPage(typeof(OptionsPage));
         }    

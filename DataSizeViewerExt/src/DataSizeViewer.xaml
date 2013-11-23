@@ -14,13 +14,6 @@
              DataContext="{Binding RelativeSource={RelativeSource Self}}">
 
     <UserControl.Resources>
-        <Style x:Key="horizontalContentAlignmentStyleLeft" TargetType="{x:Type GridViewColumnHeader}">
-            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-        </Style>
-        <Style x:Key="horizontalContentAlignmentStyleRight" TargetType="{x:Type GridViewColumnHeader}">
-            <Setter Property="HorizontalContentAlignment" Value="Right"/>
-        </Style>
-
         <cmp:ItemSizeComparer x:Key="ItemSizeComparer"/>
 
         <cvt:SymbolValidColorConverter x:Key="SymbolValidConverter"/>
@@ -65,11 +58,11 @@
 
             <Separator Margin="5,0,5,0"/>
 
-            <Button Click="RefreshSymbolTable_Click" ToolTip="Reload Symbols" Margin="0,0,5,0">
+            <Button Click="refreshSymbolTable_Click" ToolTip="Reload Symbols" Margin="0,0,5,0">
                 <Image Width="18" Source="/DataSizeViewer;component/Resources/Icon_Refresh.png"/>
             </Button>
 
-            <Button Click="Settings_Click" ToolTip="Settings">
+            <Button Click="settings_Click" ToolTip="Settings">
                 <Image Width="18" Source="/DataSizeViewer;component/Resources/Icon_Settings.png"/>
             </Button>
 
@@ -105,7 +98,6 @@
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch"
                       DataContext="{Binding mSymbolParser.symbolSizes}"
-                      MouseDoubleClick="symbolSize_MouseDoubleClick"
                       dsv:ListViewSorter.CustomListViewSorter="{StaticResource ResourceKey=ItemSizeComparer}"
                       ScrollViewer.CanContentScroll="True"
                       ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -122,23 +114,41 @@
                 </ContextMenu>
             </ListView.ContextMenu>
 
-            <ListView.ItemContainerStyle>
-                <Style TargetType="{x:Type ListViewItem}">
-                    <Setter Property="ToolTip" Value="{Binding Path=Location}" />
-                </Style>
-            </ListView.ItemContainerStyle>
-
             <ListView.Resources>
-                <Style TargetType="{x:Type TextBlock}">
+                <Style TargetType="{x:Type GridViewColumnHeader}">
+                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                </Style>
+
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     <Setter Property="Foreground" Value="{Binding Converter={StaticResource SymbolValidConverter}}"/>
+                    <Setter Property="ToolTip" Value="{Binding Path=Location}"/>
+                    <EventSetter Event="MouseDoubleClick" Handler="symbolSize_MouseDoubleClick" />
                 </Style>
             </ListView.Resources>
 
             <ListView.View>
                 <GridView>
-                    <GridViewColumn x:Name="nameColumn" Width="{Binding ElementName=nameColumnStretcher, Path=ActualWidth}" Header="Symbol Name" DisplayMemberBinding="{Binding Path=Name}" HeaderContainerStyle="{StaticResource horizontalContentAlignmentStyleLeft}"/>
-                    <GridViewColumn x:Name="storageColumn" Width="100" Header="Storage" DisplayMemberBinding="{Binding Path=Storage}" HeaderContainerStyle="{StaticResource horizontalContentAlignmentStyleLeft}"/>
-                    <GridViewColumn x:Name="sizeColumn" Width="110" Header="Size (bytes)" DisplayMemberBinding="{Binding Path=Size}" HeaderContainerStyle="{StaticResource horizontalContentAlignmentStyleLeft}"/>
+                    <GridViewColumn x:Name="nameColumn" Width="{Binding ElementName=nameColumnStretcher, Path=ActualWidth}" DisplayMemberBinding="{Binding Path=Name}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Name">Symbol Name</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn x:Name="storageColumn" Width="100" DisplayMemberBinding="{Binding Path=Storage}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Storage">Symbol Name</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn x:Name="sizeColumn" Width="110">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Size">Size (bytes)</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Padding="0,0,10,0" HorizontalAlignment="Right" Text="{Binding Path=Size}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>

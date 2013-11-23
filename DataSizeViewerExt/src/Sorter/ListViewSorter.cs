@@ -46,7 +46,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
             ListSortDirection sortDirection = GetSortingDirection(headerClicked, listViewSortItem);
 
             // Get header name
-            String header = (headerClicked.Column.DisplayMemberBinding as Binding).Path.Path as String;
+            String header = headerClicked.Tag as String;
             if (String.IsNullOrEmpty(header)) return;
 
             // Sort list view
