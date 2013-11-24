@@ -107,11 +107,9 @@ namespace FourWalledCubicle.DataSizeViewerExt
             symbolSize.ItemsSource = mSymbolParser.symbolSizes;
 
             ICollectionView dataView = CollectionViewSource.GetDefaultView(mSymbolParser.symbolSizes);
-            dataView.GroupDescriptions.Add(new PropertyGroupDescription("Storage"));
-
-            symbolSize.Items.SortDescriptions.Add(new SortDescription("Size", ListSortDirection.Descending));
-
+            dataView.GroupDescriptions.Add(new PropertyGroupDescription((String)(storageColumn.Header as GridViewColumnHeader).Tag));
             dataView.Filter = FilterSymbolEntries;
+            symbolSize.Items.SortDescriptions.Add(new SortDescription((String)(sizeColumn.Header as GridViewColumnHeader).Tag, ListSortDirection.Descending));
 
             UpdateProjectList();
         }
@@ -215,10 +213,10 @@ namespace FourWalledCubicle.DataSizeViewerExt
             }
             else
             {
-                if (!File.Exists(elfPath))
-                    ShowError("Could not find project ELF file.", "Verify that the ELF file output specified in your project options exists.");
-                else
+                if (File.Exists(elfPath))
                     ShowError("Could not find toolchain executable.", "Verify that your project toolchain configuration is correctly set.");
+                else
+                    ShowError("Could not find project ELF file.", "Verify that the ELF file output specified in your project options exists.");
             }
         }
 
