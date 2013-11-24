@@ -19,7 +19,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
 {
     public partial class DataSizeViewerUI : UserControl
     {
-        private readonly DTE myDTE;
+        private readonly DTE mDTE;
 
         private readonly IToolchainService mToolchainService;
 
@@ -46,7 +46,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
             {
                 mShowDataSegmentState = value;
 
-                ICollectionView dataView = CollectionViewSource.GetDefaultView(mSymbolParser.symbolSizes);
+                ICollectionView dataView = CollectionViewSource.GetDefaultView(symbolSize.ItemsSource);
                 dataView.Refresh();
             }
         }
@@ -62,7 +62,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
             {
                 mShowTextSegmentState = value;
 
-                ICollectionView dataView = CollectionViewSource.GetDefaultView(mSymbolParser.symbolSizes);
+                ICollectionView dataView = CollectionViewSource.GetDefaultView(symbolSize.ItemsSource);
                 dataView.Refresh();
             }
         }
@@ -78,7 +78,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
             {
                 mFilterStringValue = value;
 
-                ICollectionView dataView = CollectionViewSource.GetDefaultView(mSymbolParser.symbolSizes);
+                ICollectionView dataView = CollectionViewSource.GetDefaultView(symbolSize.ItemsSource);
                 dataView.Refresh();
             }
         }
@@ -87,12 +87,12 @@ namespace FourWalledCubicle.DataSizeViewerExt
         {
             InitializeComponent();
 
-            myDTE = Package.GetGlobalService(typeof(DTE)) as DTE;
+            mDTE = Package.GetGlobalService(typeof(DTE)) as DTE;
 
-            mBuildEvents = myDTE.Events.BuildEvents;
+            mBuildEvents = mDTE.Events.BuildEvents;
             mBuildEvents.OnBuildDone += (Scope, Action) => ReloadProjectSymbols();
 
-            mSolutionEvents = myDTE.Events.SolutionEvents;
+            mSolutionEvents = mDTE.Events.SolutionEvents;
             mSolutionEvents.Opened += () => UpdateProjectList();
             mSolutionEvents.AfterClosing += () => UpdateProjectList();
             mSolutionEvents.ProjectAdded += (p) => UpdateProjectList();
@@ -104,9 +104,9 @@ namespace FourWalledCubicle.DataSizeViewerExt
             mToolchainService = ATServiceProvider.ToolchainService;
 
             mSymbolParser = new SymbolSizeParser();
-            symbolSize.ItemsSource = mSymbolParser.symbolSizes;
+            symbolSize.ItemsSource = mSymbolParser.SymbolSizes;
 
-            ICollectionView dataView = CollectionViewSource.GetDefaultView(mSymbolParser.symbolSizes);
+            ICollectionView dataView = CollectionViewSource.GetDefaultView(symbolSize.ItemsSource);
             dataView.GroupDescriptions.Add(new PropertyGroupDescription((String)(storageColumn.Header as GridViewColumnHeader).Tag));
             dataView.Filter = FilterSymbolEntries;
             symbolSize.Items.SortDescriptions.Add(new SortDescription((String)(sizeColumn.Header as GridViewColumnHeader).Tag, ListSortDirection.Descending));
@@ -151,7 +151,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
             Project project = null;
             try
             {
-                project = myDTE.Solution.Item(projectName);
+                project = mDTE.Solution.Item(projectName);
             }
             catch { }
 
@@ -241,18 +241,18 @@ namespace FourWalledCubicle.DataSizeViewerExt
                 currentSelection = projectList.SelectedItem.ToString();
 
             projectList.Items.Clear();
-            foreach (Project p in myDTE.Solution.Projects)
+            foreach (Project p in mDTE.Solution.Projects)
             {
                 if (File.Exists(p.FullName))
                     projectList.Items.Add(p.UniqueName);
             }
 
             if (string.IsNullOrEmpty(currentSelection))
-                currentSelection = GetStartupProjectName(myDTE);
+                currentSelection = GetStartupProjectName(mDTE);
 
             try
             {
-                projectList.SelectedItem = myDTE.Solution.Projects.Item(currentSelection).UniqueName;
+                projectList.SelectedItem = mDTE.Solution.Projects.Item(currentSelection).UniqueName;
             }
             catch { }
 
@@ -306,29 +306,18 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
         private void symbolSize_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if (symbolSize.SelectedItem == null)
-                return;
+            Tuple<String, int?> symbolFileAndLine = mSymbolParser.GetSymbolLocationAndLine(symbolSize.SelectedItem as ItemSize);
 
-            string symbolLocation = (symbolSize.SelectedItem as ItemSize).Location;
-
-            if ((symbolLocation == null) || (symbolLocation.Contains(':') == false))
-                return;
-
-            string fileName = symbolLocation.Substring(0, symbolLocation.LastIndexOf(':'));
-
-            int fileLine = -1;
-            bool fileLineValid = int.TryParse(symbolLocation.Substring(symbolLocation.LastIndexOf(':') + 1), out fileLine);
-
-            if (File.Exists(fileName) && fileLineValid)
+            if (File.Exists(symbolFileAndLine.Item1) && symbolFileAndLine.Item2.HasValue)
             {
-                EnvDTE.Window w = myDTE.ItemOperations.OpenFile(Path.GetFullPath(fileName));
+                EnvDTE.Window w = mDTE.ItemOperations.OpenFile(symbolFileAndLine.Item1);
 
                 if (w != null)
-                    (w.Selection as EnvDTE.TextSelection).GotoLine(fileLine, true);
+                    (w.Selection as EnvDTE.TextSelection).GotoLine(symbolFileAndLine.Item2.Value, true);
             }
             else
             {
-                myDTE.StatusBar.Text = String.Format("Could not open file {0}", symbolLocation);
+                mDTE.StatusBar.Text = String.Format("Could not open file {0}", symbolFileAndLine.Item1);
             }
         }
 

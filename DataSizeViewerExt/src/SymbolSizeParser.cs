@@ -78,7 +78,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
                 @"$", //                    End of line
                 RegexOptions.Compiled | RegexOptions.ExplicitCapture);
         
-        public ObservableCollection<ItemSize> symbolSizes
+        public ObservableCollection<ItemSize> SymbolSizes
         {
             get { return mSymbolSizes; }
         }
@@ -142,6 +142,22 @@ namespace FourWalledCubicle.DataSizeViewerExt
                     LocationExists = locationExists
                 });
             }
+        }
+
+        public Tuple<String, int?> GetSymbolLocationAndLine(ItemSize symbol)
+        {
+            if ((symbol.Location == null) || (symbol.Location.Contains(":") == false))
+                return new Tuple<string,int?>("<Unknown>", null);
+
+            string fileName = Path.GetFullPath(symbol.Location.Substring(0, symbol.Location.LastIndexOf(':')));
+
+            int fileLine = -1;
+            bool fileLineValid = int.TryParse(symbol.Location.Substring(symbol.Location.LastIndexOf(':') + 1), out fileLine);
+
+            if (fileLineValid)
+                return new Tuple<String, int?>(fileName, fileLine);
+            else
+                return new Tuple<String, int?>(fileName, null);
         }
     }
 }
