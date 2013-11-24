@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace FourWalledCubicle.DataSizeViewerExt.Converter
+namespace FourWalledCubicle.DataSizeViewerExt
 {
     public class SymbolValidColorConverter : IValueConverter
     {

@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Atmel.Studio.Extensibility.Toolchain;
@@ -27,7 +28,13 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
         private SymbolSizeParser mSymbolParser;
 
+        private ListViewSortArrowAdorner mSymbolListArrowAdorner = null;
+        private GridViewColumnHeader mSymbolListSortColumn = null;
+
         private bool mShowDataSegmentState = true;
+        private bool mShowTextSegmentState = true;
+        private string mFilterStringValue = string.Empty;
+
         public bool mShowDataSegment
         {
             get
@@ -44,7 +51,6 @@ namespace FourWalledCubicle.DataSizeViewerExt
             }
         }
 
-        private bool mShowTextSegmentState = true;
         public bool mShowTextSegment
         {
             get
@@ -61,7 +67,6 @@ namespace FourWalledCubicle.DataSizeViewerExt
             }
         }
 
-        private string mFilterStringValue = string.Empty;
         public string mFilterString
         {
             get
@@ -267,6 +272,28 @@ namespace FourWalledCubicle.DataSizeViewerExt
             return startupProjectName;
         }
 
+        private void symbolSize_ColumnHeaderClick(object sender, RoutedEventArgs e)
+        {
+            GridViewColumnHeader column = (sender as GridViewColumnHeader);
+            String field = column.Tag as String;
+
+            if (mSymbolListSortColumn != null)
+            {
+                AdornerLayer.GetAdornerLayer(
+                    mSymbolListSortColumn).Remove(mSymbolListArrowAdorner);
+                symbolSize.Items.SortDescriptions.Clear();
+            }
+
+            ListSortDirection newDir = ListSortDirection.Ascending;
+            if (mSymbolListSortColumn == column && mSymbolListArrowAdorner.Direction == newDir)
+                newDir = ListSortDirection.Descending;
+
+            mSymbolListSortColumn = column;
+            mSymbolListArrowAdorner = new ListViewSortArrowAdorner(mSymbolListSortColumn, newDir);
+            AdornerLayer.GetAdornerLayer(mSymbolListSortColumn).Add(mSymbolListArrowAdorner);
+            symbolSize.Items.SortDescriptions.Add(new SortDescription(field, newDir));
+        } 
+
         private void symbolSize_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (symbolSize.SelectedItem == null)
@@ -318,6 +345,6 @@ namespace FourWalledCubicle.DataSizeViewerExt
         private void settings_Click(object sender, RoutedEventArgs e)
         {
             DataSizeViewerPackage.Package.ShowOptionPage(typeof(OptionsPage));
-        }    
+        }   
     }
 }

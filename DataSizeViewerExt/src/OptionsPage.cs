@@ -24,7 +24,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
         [DisplayName("Text Symbol Color")]
         [Description("Color used for symbols in the Text section, if their source file is available.")]
-        [Editor(typeof(TypeEditor.MediaColorUITypeEditor), typeof(UITypeEditor))]
+        [Editor(typeof(MediaColorUITypeEditor), typeof(UITypeEditor))]
         public Color TextSymbolColor
         {
             get { return mTextSymbolColor; }
@@ -33,7 +33,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
         [DisplayName("Unavailable Text Symbol Color")]
         [Description("Color used for symbols in the Text section, if their source file is unavailable.")]
-        [Editor(typeof(TypeEditor.MediaColorUITypeEditor), typeof(UITypeEditor))]
+        [Editor(typeof(MediaColorUITypeEditor), typeof(UITypeEditor))]
         public Color UnavailableTextSymbolColor
         {
             get { return mUnavailableTextSymbolColor; }
@@ -42,7 +42,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
         [DisplayName("Data Symbol Color")]
         [Description("Color used for symbols in the Data section, if their source file is available.")]
-        [Editor(typeof(TypeEditor.MediaColorUITypeEditor), typeof(UITypeEditor))]
+        [Editor(typeof(MediaColorUITypeEditor), typeof(UITypeEditor))]
         public Color DataSymbolColor
         {
             get { return mDataSymbolColor; }
@@ -51,7 +51,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
         [DisplayName("Unavailable Data Symbol Color")]
         [Description("Color used for symbols in the Data section, if their source file is unavailable.")]
-        [Editor(typeof(TypeEditor.MediaColorUITypeEditor), typeof(UITypeEditor))]
+        [Editor(typeof(MediaColorUITypeEditor), typeof(UITypeEditor))]
         public Color UnavailableDataSymbolColor
         {
             get { return mUnavailableDataSymbolColor; }

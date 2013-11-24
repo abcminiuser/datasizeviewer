@@ -5,8 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vsfx="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.10.0"
              xmlns:dsv="clr-namespace:FourWalledCubicle.DataSizeViewerExt"
-             xmlns:cmp="clr-namespace:FourWalledCubicle.DataSizeViewerExt.Comparer"
-             xmlns:cvt="clr-namespace:FourWalledCubicle.DataSizeViewerExt.Converter"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="800"
              Name="ELFSymbolSizes"
@@ -14,35 +12,7 @@
              DataContext="{Binding RelativeSource={RelativeSource Self}}">
 
     <UserControl.Resources>
-        <cmp:ItemSizeComparer x:Key="ItemSizeComparer"/>
-
-        <cvt:SymbolValidColorConverter x:Key="SymbolValidConverter"/>
-
-        <DataTemplate x:Key="ListViewHeaderTemplateDescendingSorting">
-            <DockPanel>
-                <TextBlock Text="{Binding}"/>
-                <Path x:Name="arrow"
-                    StrokeThickness = "1"
-                    Fill            = "gray"
-                    Data            = "M 5,5 L 10,10 L 15,5 L 5,5"/>
-            </DockPanel>
-        </DataTemplate>
-
-        <DataTemplate x:Key="ListViewHeaderTemplateAscendingSorting">
-            <DockPanel>
-                <TextBlock Text="{Binding}"/>
-                <Path x:Name="arrow"
-                    StrokeThickness = "1"
-                    Fill            = "gray"
-                    Data            = "M 5,10 L 15,10 L 10,5 L 5,10"/>
-            </DockPanel>
-        </DataTemplate>
-
-        <DataTemplate x:Key="ListViewHeaderTemplateNoSorting">
-            <DockPanel>
-                <TextBlock Text="{Binding}"/>
-            </DockPanel>
-        </DataTemplate>
+        <dsv:SymbolValidColorConverter x:Key="SymbolValidConverter"/>
     </UserControl.Resources>
 
     <DockPanel Background="White">
@@ -87,7 +57,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="{Binding ElementName=storageColumn, Path=ActualWidth}"/>
                 <ColumnDefinition Width="{Binding ElementName=sizeColumn, Path=ActualWidth}"/>
-                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="20"/>
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0" x:Name="nameColumnStretcher" />
@@ -98,7 +68,6 @@
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch"
                       DataContext="{Binding mSymbolParser.symbolSizes}"
-                      dsv:ListViewSorter.CustomListViewSorter="{StaticResource ResourceKey=ItemSizeComparer}"
                       ScrollViewer.CanContentScroll="True"
                       ScrollViewer.VerticalScrollBarVisibility="Auto"
                       BorderThickness="0"
@@ -117,6 +86,7 @@
             <ListView.Resources>
                 <Style TargetType="{x:Type GridViewColumnHeader}">
                     <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                    <EventSetter Event="Click" Handler="symbolSize_ColumnHeaderClick"/>
                 </Style>
 
                 <Style TargetType="{x:Type ListViewItem}">

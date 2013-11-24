@@ -5,7 +5,7 @@ using System.Drawing.Design;
 using WinFormsColor = System.Drawing.Color;
 using WPFColor = System.Windows.Media.Color;
 
-namespace FourWalledCubicle.DataSizeViewerExt.TypeEditor
+namespace FourWalledCubicle.DataSizeViewerExt
 {
     static internal class ColorUtil
     {
