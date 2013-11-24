@@ -18,15 +18,20 @@
     <DockPanel Background="White">
         <ToolBarPanel DockPanel.Dock="Top" Orientation="Horizontal" Background="{DynamicResource {x:Static vsfx:VsBrushes.CommandBarGradientKey}}">
             <ToolBarPanel.Resources>
-                <Style TargetType="Separator" BasedOn="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" />
-                <Style TargetType="Button" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" />
+                <Style TargetType="Separator" BasedOn="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}">
+                    <Setter Property="Margin" Value="5,0,5,0"/>
+                </Style>
+                <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"/>
+                <Style TargetType="Button" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
+                <Style TargetType="CheckBox">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
             </ToolBarPanel.Resources>
             
             <Label Margin="5,0,0,0" VerticalAlignment="Center">Show symbols from:</Label>
             <ComboBox Grid.Column="1" Name="projectList" Margin="2" MinWidth="300"/>
 
-            <Separator Margin="5,0,5,0"/>
+            <Separator/>
 
             <Button Click="refreshSymbolTable_Click" ToolTip="Reload Symbols" Margin="0,0,5,0">
                 <Image Width="18" Source="/DataSizeViewer;component/Resources/Icon_Refresh.png"/>
@@ -36,17 +41,17 @@
                 <Image Width="18" Source="/DataSizeViewer;component/Resources/Icon_Settings.png"/>
             </Button>
 
-            <Separator Margin="5,0,5,0"/>
+            <Separator/>
 
-            <CheckBox VerticalAlignment="Center" IsChecked="{Binding mShowTextSegment, Mode=TwoWay}" ToolTip="Show Text Segment" Margin="5,0,5,0">
+            <CheckBox IsChecked="{Binding mShowTextSegment, Mode=TwoWay}" ToolTip="Show Text Segment" Margin="5,0,5,0">
                 Text Segment
             </CheckBox>
 
-            <CheckBox VerticalAlignment="Center" IsChecked="{Binding mShowDataSegment, Mode=TwoWay}" ToolTip="Show Data Segment" Margin="5,0,5,0">
+            <CheckBox IsChecked="{Binding mShowDataSegment, Mode=TwoWay}" ToolTip="Show Data Segment" Margin="5,0,5,0">
                 Data Segment
             </CheckBox>
 
-            <Separator Margin="5,0,5,0"/>
+            <Separator/>
 
             <Label Margin="5,0,0,0" VerticalAlignment="Center">Filter:</Label>
             <TextBox Margin="0,5,0,5" Text="{Binding mFilterString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="250" />
