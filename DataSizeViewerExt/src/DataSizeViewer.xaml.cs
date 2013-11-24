@@ -284,9 +284,9 @@ namespace FourWalledCubicle.DataSizeViewerExt
                 symbolSize.Items.SortDescriptions.Clear();
             }
 
-            ListSortDirection newDir = ListSortDirection.Ascending;
+            ListSortDirection newDir = ListSortDirection.Descending;
             if (mSymbolListSortColumn == column && mSymbolListArrowAdorner.Direction == newDir)
-                newDir = ListSortDirection.Descending;
+                newDir = (newDir == ListSortDirection.Descending) ? ListSortDirection.Ascending : ListSortDirection.Descending;
 
             mSymbolListSortColumn = column;
             mSymbolListArrowAdorner = new ListViewSortArrowAdorner(mSymbolListSortColumn, newDir);
