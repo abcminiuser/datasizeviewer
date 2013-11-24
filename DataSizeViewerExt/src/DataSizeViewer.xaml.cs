@@ -108,6 +108,9 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
             ICollectionView dataView = CollectionViewSource.GetDefaultView(mSymbolParser.symbolSizes);
             dataView.GroupDescriptions.Add(new PropertyGroupDescription("Storage"));
+
+            symbolSize.Items.SortDescriptions.Add(new SortDescription("Size", ListSortDirection.Descending));
+
             dataView.Filter = FilterSymbolEntries;
 
             UpdateProjectList();
@@ -272,25 +275,34 @@ namespace FourWalledCubicle.DataSizeViewerExt
             return startupProjectName;
         }
 
+        private void refreshSymbolTable_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateProjectList();
+        }
+
+        private void settings_Click(object sender, RoutedEventArgs e)
+        {
+            DataSizeViewerPackage.Package.ShowOptionPage(typeof(OptionsPage));
+        }
+
         private void symbolSize_ColumnHeaderClick(object sender, RoutedEventArgs e)
         {
             GridViewColumnHeader column = (sender as GridViewColumnHeader);
             String field = column.Tag as String;
 
             if (mSymbolListSortColumn != null)
-            {
-                AdornerLayer.GetAdornerLayer(
-                    mSymbolListSortColumn).Remove(mSymbolListArrowAdorner);
-                symbolSize.Items.SortDescriptions.Clear();
-            }
+                AdornerLayer.GetAdornerLayer(mSymbolListSortColumn).Remove(mSymbolListArrowAdorner);
 
-            ListSortDirection newDir = ListSortDirection.Descending;
+            ListSortDirection newDir = ListSortDirection.Ascending;
             if (mSymbolListSortColumn == column && mSymbolListArrowAdorner.Direction == newDir)
                 newDir = (newDir == ListSortDirection.Descending) ? ListSortDirection.Ascending : ListSortDirection.Descending;
 
             mSymbolListSortColumn = column;
+
             mSymbolListArrowAdorner = new ListViewSortArrowAdorner(mSymbolListSortColumn, newDir);
             AdornerLayer.GetAdornerLayer(mSymbolListSortColumn).Add(mSymbolListArrowAdorner);
+
+            symbolSize.Items.SortDescriptions.Clear();
             symbolSize.Items.SortDescriptions.Add(new SortDescription(field, newDir));
         } 
 
@@ -336,15 +348,5 @@ namespace FourWalledCubicle.DataSizeViewerExt
         {
             e.CanExecute = (symbolSize.Items.IsEmpty == false);
         }
-
-        private void refreshSymbolTable_Click(object sender, RoutedEventArgs e)
-        {
-            UpdateProjectList();
-        }
-
-        private void settings_Click(object sender, RoutedEventArgs e)
-        {
-            DataSizeViewerPackage.Package.ShowOptionPage(typeof(OptionsPage));
-        }   
     }
 }
