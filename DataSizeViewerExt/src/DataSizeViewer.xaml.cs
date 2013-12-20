@@ -10,9 +10,9 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Threading;
-using Atmel.Studio.Extensibility.Toolchain;
 using Atmel.Studio.Services;
 using EnvDTE;
+using Microsoft.VisualStudio.ExtensionManager;
 using Microsoft.VisualStudio.Shell;
 
 namespace FourWalledCubicle.DataSizeViewerExt
@@ -20,8 +20,6 @@ namespace FourWalledCubicle.DataSizeViewerExt
     public partial class DataSizeViewerUI : UserControl
     {
         private readonly DTE mDTE;
-
-        private readonly IToolchainService mToolchainService;
 
         private BuildEvents mBuildEvents;
         private SolutionEvents mSolutionEvents;
@@ -101,8 +99,6 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
             projectList.SelectionChanged += (s, e) => ReloadProjectSymbols();
 
-            mToolchainService = ATServiceProvider.ToolchainService;
-
             mSymbolParser = new SymbolSizeParser();
             symbolSize.ItemsSource = mSymbolParser.SymbolSizes;
 
@@ -164,11 +160,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
             ShowError("An internal error has occurred.", "Toolchain service could not be loaded.");
 
-            if (mToolchainService == null)
-                return;
-
             string elfPath = null;
-            string toolchainNMPath = null;
 
             string previousDirectory = Directory.GetCurrentDirectory();
             try
@@ -181,13 +173,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
                 Directory.SetCurrentDirectory(previousDirectory);
             }
 
-            ICCompilerToolchain toolchainC = mToolchainService.GetCCompilerToolchain(projectNode.ToolchainName, projectNode.GetProperty("ToolchainFlavour"));
-            if (toolchainC != null)
-                toolchainNMPath = Path.Combine(Path.GetDirectoryName(toolchainC.Compiler.FullPath), Path.GetFileName(toolchainC.Compiler.FullPath.Replace("gcc", "nm")));
-
-            ICppCompilerToolchain toolchainCpp = mToolchainService.GetCppCompilerToolchain(projectNode.ToolchainName, projectNode.GetProperty("ToolchainFlavour"));
-            if (toolchainCpp != null)
-                toolchainNMPath = Path.Combine(Path.GetDirectoryName(toolchainCpp.CppCompiler.FullPath), Path.GetFileName(toolchainCpp.CppCompiler.FullPath.Replace("g++", "nm")));
+            string toolchainNMPath = GetContentLocation("GNU-NM");
 
             if (File.Exists(elfPath) && File.Exists(toolchainNMPath))
             {
@@ -271,6 +257,28 @@ namespace FourWalledCubicle.DataSizeViewerExt
                 startupProjectName += el;
 
             return startupProjectName;
+        }
+
+        private static string GetContentLocation(string contentName)
+        {
+            IVsExtensionManager extensionManagerService = Package.GetGlobalService(typeof(SVsExtensionManager)) as IVsExtensionManager;
+            if (extensionManagerService == null)
+                return null;
+
+            IInstalledExtension dsExt = null;
+            if (extensionManagerService.TryGetInstalledExtension(GuidList.guidDataSizeViewerPkgString, out dsExt) == false)
+                return null;
+
+            string contentPath = null;
+
+            try
+            {
+                string contentRelativePath = dsExt.Content.Where(c => c.ContentTypeName == contentName).First().RelativePath;
+                contentPath = Path.Combine(dsExt.InstallPath, contentRelativePath);
+            }
+            catch { }
+
+            return contentPath;
         }
 
         private void refreshSymbolTable_Click(object sender, RoutedEventArgs e)
