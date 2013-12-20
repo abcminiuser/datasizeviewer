@@ -158,8 +158,6 @@ namespace FourWalledCubicle.DataSizeViewerExt
             if (projectNode == null)
                 return;
 
-            ShowError("An internal error has occurred.", "Toolchain service could not be loaded.");
-
             string elfPath = null;
 
             string previousDirectory = Directory.GetCurrentDirectory();
@@ -175,7 +173,15 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
             string toolchainNMPath = GetContentLocation("GNU-NM");
 
-            if (File.Exists(elfPath) && File.Exists(toolchainNMPath))
+            if (!File.Exists(elfPath))
+            {
+                ShowError("Could not find project ELF file.", "Verify that the ELF file output specified in your project options exists.");
+            }
+            else if (!File.Exists(toolchainNMPath))
+            {
+                ShowError("An internal error has occurred.", "GNU NM binary cound not be found.");
+            }
+            else
             {
                 ShowError("No symbols have been loaded.", "Ensure you are compiling in Debug mode, and have debug symbols enabled in your toolchain options.");
 
@@ -196,13 +202,6 @@ namespace FourWalledCubicle.DataSizeViewerExt
                     if (symbolSize.Items.Count != 0)
                         ShowSymbolTable();
                 }
-            }
-            else
-            {
-                if (File.Exists(elfPath))
-                    ShowError("Could not find toolchain executable.", "Verify that your project toolchain configuration is correctly set.");
-                else
-                    ShowError("Could not find project ELF file.", "Verify that the ELF file output specified in your project options exists.");
             }
         }
 
