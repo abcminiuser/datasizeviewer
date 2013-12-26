@@ -118,7 +118,7 @@ namespace FourWalledCubicle.DataSizeViewerExt
             try
             {
                 if (DataSizeViewerPackage.Options.UseRegExFiltering)
-                    isMatch = (new Regex(mFilterString, RegexOptions.Compiled)).IsMatch(currentItem.Name);
+                    isMatch = (new Regex(mFilterString)).IsMatch(currentItem.Name);
                 else
                     isMatch = currentItem.Name.Contains(mFilterString);
             }
