@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.Shell;
 
 namespace FourWalledCubicle.DataSizeViewerExt
 {
+    [System.ComponentModel.DesignerCategory("")]
     public class OptionsPage : DialogPage
     {
         private bool mVerifyLocations = true;
