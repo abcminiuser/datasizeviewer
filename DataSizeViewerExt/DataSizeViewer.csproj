@@ -38,8 +38,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Atmel.Studio.Services.Interfaces, Version=6.1.0.0, Culture=neutral, PublicKeyToken=d264112969646cc9, processorArchitecture=MSIL" />
-    <Reference Include="Atmel.Studio.Toolchain.Interfaces, Version=6.1.0.0, Culture=neutral, PublicKeyToken=d264112969646cc9, processorArchitecture=MSIL" />
-    <Reference Include="Atmel.Studio.Toolchain.Library, Version=6.1.0.0, Culture=neutral, PublicKeyToken=d264112969646cc9, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.ExtensionManager, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -127,9 +125,7 @@
   <ItemGroup>
     <Compile Include="src\ListViewSortArrowAdorner.cs" />
     <Compile Include="src\SymbolValidColorConverter.cs" />
-    <Compile Include="src\OptionsPage.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="src\OptionsPage.cs" />
     <Compile Include="src\SymbolSizeParser.cs" />
     <Compile Include="src\DataSizeViewer.xaml.cs">
       <DependentUpon>DataSizeViewer.xaml</DependentUpon>
