@@ -31,7 +31,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CopyVsixExtensionFiles>True</CopyVsixExtensionFiles>
-    <CopyVsixExtensionLocation>C:\Users\Dean\AppData\Local\Atmel\AtmelStudio\6.1_Exp\Extensions\Dean Camera\Data Size Viewer</CopyVsixExtensionLocation>
+    <CopyVsixExtensionLocation>C:\Users\Dean\AppData\Local\Atmel\AtmelStudio\7.0_Exp\Extensions\Dean Camera\Data Size Viewer</CopyVsixExtensionLocation>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -43,7 +43,7 @@
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CopyVsixExtensionFiles>True</CopyVsixExtensionFiles>
-    <CopyVsixExtensionLocation>C:\Users\Dean\AppData\Local\Atmel\AtmelStudio\6.1\Extensions\Dean Camera\Data Size Viewer</CopyVsixExtensionLocation>
+    <CopyVsixExtensionLocation>C:\Users\Dean\AppData\Local\Atmel\AtmelStudio\7.0\Extensions\Dean Camera\Data Size Viewer</CopyVsixExtensionLocation>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
@@ -222,7 +222,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\VSSDK\Microsoft.VsSDK.targets" Condition="false" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
