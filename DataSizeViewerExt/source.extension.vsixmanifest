@@ -12,8 +12,7 @@
     <PreviewImage>Preview.png</PreviewImage>
     <InstalledByMsi>false</InstalledByMsi>
     <SupportedProducts>
-      <IsolatedShell Version="6.2">AtmelStudio</IsolatedShell>
-      <IsolatedShell Version="6.1">AtmelStudio</IsolatedShell>
+      <IsolatedShell Version="7.0">AtmelStudio</IsolatedShell>
     </SupportedProducts>
     <SupportedFrameworkRuntimeEdition MinVersion="4.0" MaxVersion="4.0" />
   </Identifier>

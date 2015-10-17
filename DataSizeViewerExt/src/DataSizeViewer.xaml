@@ -8,7 +8,8 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="800"
              Name="ELFSymbolSizes"
-             Background="{DynamicResource {x:Static vsfx:VsBrushes.CommandBarGradientKey}}"
+             Background="{DynamicResource {x:Static vsfx:VsBrushes.ToolWindowBackgroundKey}}"
+             Foreground="{DynamicResource {x:Static vsfx:VsBrushes.ToolWindowTextKey}}"
              DataContext="{Binding RelativeSource={RelativeSource Self}}">
 
     <UserControl.Resources>
@@ -18,12 +19,16 @@
     <DockPanel Background="White">
         <ToolBarPanel DockPanel.Dock="Top" Orientation="Horizontal" Background="{DynamicResource {x:Static vsfx:VsBrushes.CommandBarGradientKey}}">
             <ToolBarPanel.Resources>
+                <Style TargetType="Label">
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static vsfx:VsBrushes.ToolWindowTextKey}}"/>
+                </Style>
                 <Style TargetType="Separator" BasedOn="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}">
                     <Setter Property="Margin" Value="5,0,5,0"/>
                 </Style>
                 <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"/>
                 <Style TargetType="Button" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
                 <Style TargetType="CheckBox">
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static vsfx:VsBrushes.ToolWindowTextKey}}"/>
                     <Setter Property="VerticalAlignment" Value="Center"/>
                 </Style>
             </ToolBarPanel.Resources>
