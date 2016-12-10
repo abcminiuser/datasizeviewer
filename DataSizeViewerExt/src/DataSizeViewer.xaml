@@ -22,7 +22,7 @@
     <DockPanel>
         <ToolBarPanel DockPanel.Dock="Top" Orientation="Horizontal">
             <Label Margin="5,0,0,0" VerticalAlignment="Center">Show symbols from:</Label>
-            <ComboBox Grid.Column="1" Name="projectList" Margin="2" MinWidth="300"/>
+            <ComboBox Grid.Column="1" Name="projectList" Margin="2" MinWidth="300" DisplayMemberPath="Name" SelectedValuePath="Name" />
 
             <Separator/>
 

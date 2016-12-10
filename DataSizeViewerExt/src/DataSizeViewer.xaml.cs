@@ -138,25 +138,16 @@ namespace FourWalledCubicle.DataSizeViewerExt
             if (projectList.SelectedItem == null)
                 return;
 
-            String projectName = (String)projectList.SelectedItem.ToString();
-            if (String.IsNullOrEmpty(projectName))
-                return;
-
-            ShowError("An internal error has occurred.", "Project could not be loaded.");
-
-            Project project = null;
-            try
-            {
-                project = mDTE.Solution.Item(projectName);
-            }
-            catch { }
-
+            Project project = projectList.SelectedItem as Project;
             if (project == null)
                 return;
 
             IProjectHandle projectNode = project.Object as IProjectHandle;
             if (projectNode == null)
+            {
+                ShowError("An internal error has occurred.", "Project could not be loaded.");
                 return;
+            }
 
             string elfPath = null;
 
@@ -220,42 +211,33 @@ namespace FourWalledCubicle.DataSizeViewerExt
 
         private void UpdateProjectList()
         {
-            string currentSelection = string.Empty;
+            Project selectedProject = null;
 
             if (projectList.SelectedItem != null)
-                currentSelection = projectList.SelectedItem.ToString();
+                selectedProject = projectList.SelectedItem as Project;
 
             projectList.Items.Clear();
             foreach (Project p in mDTE.Solution.Projects)
             {
                 if (File.Exists(p.FullName))
-                    projectList.Items.Add(p.UniqueName);
+                    projectList.Items.Add(p);
             }
 
-            if (string.IsNullOrEmpty(currentSelection))
-                currentSelection = GetStartupProjectName(mDTE);
+            if (selectedProject == null)
+            {
+                SolutionBuild solutionBuild = mDTE.Solution.SolutionBuild;
+
+                if ((solutionBuild != null) && (solutionBuild.StartupProjects != null))
+                    selectedProject = solutionBuild.StartupProjects as Project;
+            }
 
             try
             {
-                projectList.SelectedItem = mDTE.Solution.Projects.Item(currentSelection).UniqueName;
+                projectList.SelectedItem = mDTE.Solution.Projects.Item(selectedProject);
             }
             catch { }
 
             ReloadProjectSymbols();
-        }
-
-        private static string GetStartupProjectName(DTE myDTE)
-        {
-            string startupProjectName = string.Empty;
-            SolutionBuild solutionBuild = myDTE.Solution.SolutionBuild;
-
-            if ((solutionBuild == null) || (solutionBuild.StartupProjects == null))
-                return startupProjectName;
-
-            foreach (string el in (Array)solutionBuild.StartupProjects)
-                startupProjectName += el;
-
-            return startupProjectName;
         }
 
         private static string GetContentLocation(string contentName)
